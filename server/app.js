@@ -11,7 +11,9 @@ let express = require('express'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
-  errorhandler = require('errorhandler');
+  errorhandler = require('errorhandler'),
+
+  api = require('./apis/index');
 
 let app = express();
 
@@ -36,10 +38,13 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use('/api', api);
+
 // development only
 if ('development' == app.get('env')) {
   app.use(errorhandler());
 }
+
 
 let server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
