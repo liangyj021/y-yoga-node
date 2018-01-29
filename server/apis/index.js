@@ -15,11 +15,4 @@ router.post('*', function(req, res, next) {
 
 router.use('/todo', todo)
 
-// router.get('/todo/getlist', function(req, res, next) {
-//   console.log(req.url, 'todoGetlist');
-//   // res.sendStatus(200)
-//   //
-//   // res.send(a)
-// });
-
 module.exports = router;
