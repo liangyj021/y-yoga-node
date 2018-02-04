@@ -49,11 +49,15 @@ let server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 
-let io = require('socket.io').listen(server);
-io.on('connection', function (socket) {
-  console.log("get connected");
-  socket.emit('open', {test: true});//通知客户端已连接
-  socket.on('otherEvent', (data) => {
-    console.log(data);
-  })
-})
+let socket = require('./sockets/index')
+console.log(socket);
+socket.initServer(server)
+
+// let io = require('socket.io').listen(server);
+// io.on('connection', function (socket) {
+//   console.log("get connected");
+//   socket.emit('open', {test: true});//通知客户端已连接
+//   socket.on('otherEvent', (data) => {
+//     console.log(data);
+//   })
+// })
