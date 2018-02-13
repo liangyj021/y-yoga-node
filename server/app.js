@@ -57,3 +57,21 @@ io.on('connection', function (socket) {
     console.log(data);
   })
 })
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/Young');
+
+var db = mongoose.connection;
+console.log('db', db)
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  debugger
+  // yay!
+});
+
+var kittySchema = mongoose.Schema({
+  name: String
+})
+
+var Kitten = mongoose.model('Kitten', kittySchema)
+
