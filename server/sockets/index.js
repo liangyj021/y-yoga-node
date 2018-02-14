@@ -1,5 +1,4 @@
 let io = {};
-
 let Socket = {
   initServer(server) {
     io = require('socket.io').listen(server)
@@ -12,10 +11,24 @@ let Socket = {
       socket.on('otherEvent', (data) => {
         console.log(data);
       })
+      socket.on('join-room', name => {
+        this.joinRoom(socket, name)
+      })
     })
-    io.on('joinGameRoom', function(a, b) {
-      console.log(a, b);
+  },
+  emit(s, e, data) {
+    s.emit(e, data)
+  },
+  emitTo(s, id, e, data) {
+    s.to(id).emit(e, data)
+  },
+  joinRoom(s, name) {
+    s.join(name, () => {
+
     })
+  },
+  leaveRoom(s, name) {
+    s.leave(name)
   }
 }
 
