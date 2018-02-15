@@ -1,20 +1,21 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let todo = require('./todo')
-let game = require('./game')
+let lostCity = require('./games/lostCity')
 
+console.log(123);
 router.get('*', function(req, res, next) {
-  console.log(req.url, '***');
+  // console.log(req.url, '***');
   next()
   // console.log(req);
 })
 router.post('*', function(req, res, next) {
   // console.log(req);
+  console.log(req.url, 'game');
+
   next()
 })
 
-router.use('/todo', todo)
-router.use('/game', game)
+router.use('/lostCity', lostCity)
 
 module.exports = router;

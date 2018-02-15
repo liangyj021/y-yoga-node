@@ -17,9 +17,7 @@ router.post('*', function(req, res, next) {
 
 router.get('/getlist', function(req, res) {
   console.log(req.url, 'todo getlist');
-  // res.sendStatus(200)
   res.statusCode = 200
-  // res.setHeader("aa", "bb")
   let data = {
     todos: [
       {id: 0, title: "导航 -- 主要是react-router与导航样式", type: 'done'},

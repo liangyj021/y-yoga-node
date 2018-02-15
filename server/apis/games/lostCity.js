@@ -1,12 +1,11 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let todo = require('./todo')
-let game = require('./game')
+
+console.log(456);
 
 router.get('*', function(req, res, next) {
-  console.log(req.url, '***');
-  next()
+  next();
   // console.log(req);
 })
 router.post('*', function(req, res, next) {
@@ -14,7 +13,12 @@ router.post('*', function(req, res, next) {
   next()
 })
 
-router.use('/todo', todo)
-router.use('/game', game)
+router.post('/joinGame', function(req, res) {
+  res.statusCode = 200
+  let data = {
+    roomName: 'lost-city-001'
+  }
+  res.send(data)
+});
 
 module.exports = router;

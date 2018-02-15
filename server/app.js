@@ -15,6 +15,7 @@ let express = require('express'),
 
   api = require('./apis/index');
 
+let socketConfig = require('./sockets/index')
 let app = express();
 
 // all environments
@@ -52,24 +53,8 @@ let server = http.createServer(app).listen(app.get('port'), function(){
 let io = require('socket.io').listen(server);
 io.on('connection', function (socket) {
   console.log("get connected");
-  socket.emit('open', {test: true});//通知客户端已连接
-  socket.on('otherEvent', (data) => {
-    console.log(data);
-  })
+  socketConfig(socket)
 })
-
-let socket = require('./sockets/index')
-console.log(socket);
-socket.initServer(server)
-
-// let io = require('socket.io').listen(server);
-// io.on('connection', function (socket) {
-//   console.log("get connected");
-//   socket.emit('open', {test: true});//通知客户端已连接
-//   socket.on('otherEvent', (data) => {
-//     console.log(data);
-//   })
-// })
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/Young');
