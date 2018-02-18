@@ -1,3 +1,5 @@
+let GameControl = require('./game/index.js')
+
 const Socket = (socket) => {
   socket.emit('open', {connected: true});//通知客户端已连接
   socket.on('otherEvent', (data) => {
@@ -8,6 +10,9 @@ const Socket = (socket) => {
   })
   socket.on('joinGameRoom', name => {
     joinRoom(socket, name)
+  })
+  socket.on('game-info', data => {
+    GameControl.control(data, socket)
   })
 }
 const emit = (s, e, data) => {

@@ -21,17 +21,19 @@ const baseCards = [
   {id: 57, color: 'white', content: 8},  {id: 58, color: 'white', content: 9},  {id: 59, color: 'white', content: 10},
 ]
 
-const cardColorSort = {
+const cardColorMap = {
   0: "red",  1: "green",  2: "blue",  3: "yellow",  4: "white",
   "red": 0,  "green": 1,  "blue": 2,  "yellow": 3,  "white": 4,
 }
 
 const getRandomCards = () => {
-  let cards = [...baseCards];
+  let cards = baseCards.map(i => Object.assign({}, i));
   for (var i = 0; i < 120; i++) {
     let r1 = Math.floor(Math.random()*59)
     let r2 = Math.floor(Math.random()*59)
-    [cards[r1], card[r2]] = [cards[r2], cards[r1]]
+    let tmp = cards[r1]
+    cards[r1] = cards[r2]
+    cards[r2] = tmp
   }
   cards.forEach(i => i.public = true)
   return cards
@@ -39,14 +41,14 @@ const getRandomCards = () => {
 
 const getEmptyPlacePile = (isPublic) => {
   let pile = [
-    {id: -1, color: 'red', empty: true},
-    {id: -2, color: 'green', empty: true},
-    {id: -3, color: 'blue', empty: true},
-    {id: -4, color: 'yellow', empty: true},
-    {id: -5, color: 'white', empty: true},
+    [{id: -1, color: 'red', empty: true}],
+    [{id: -2, color: 'green', empty: true}],
+    [{id: -3, color: 'blue', empty: true}],
+    [{id: -4, color: 'yellow', empty: true}],
+    [{id: -5, color: 'white', empty: true}],
   ]
   if (isPublic) {
-    pile.forEach(i => i.public = true)
+    pile.forEach(i => i[0].public = true)
   }
   return pile
 }
@@ -61,33 +63,31 @@ const getCardIndex = (pile, card) => {
 
 class LostCity {
   constructor() {
-    this.pile = getRandomCards();
-    this.player1Hand = this.pile.splice(0, 8)
-    this.player1Pile = getEmptyPlacePile()
-    this.discardPileTopCard = getEmptyPlacePile(true)
-    this.discardPiles = this.discardPileTopCard.map(i => [i])
-    this.player2Hand = this.pile.splice(0, 8)
-    this.player2Pile = getEmptyPlacePile()
+    this.publicPile = getRandomCards();
+    this.player1Hand = this.publicPile.splice(0, 8)
+    this.player1PlacePile = getEmptyPlacePile()
+    this.discardPile = getEmptyPlacePile(true)
+    this.player2Hand = this.publicPile.splice(0, 8)
+    this.player2PlacePile = getEmptyPlacePile()
   }
   pickCard(player, discardPile) {
-    let hand, card, colorIndex = cardColorSort[discardPile];
+    let hand, card, colorIndex = cardColorMap[discardPile];
     if (player == 1) {
       hand = this.player1Hand
     } else {
       hand = this.player2Hand
     }
-    if (pile) {
-      card = this.discardPiles[colorIndex].pop();
-      this.discardPileTopCard[colorIndex] = this.discardPiles[colorIndex][this.discardPiles[colorIndex].length-1]
+    if (discardPile) {
+      card = this.discardPile[colorIndex].pop();
     } else {
-      card = this.pile.pop()
+      card = this.publicPile.pop()
     }
     card.public = false;
     hand.push(card)
     return card;
   }
   discardCard(player, card) {
-    let hand, cardIndex, colorIndex = cardColorSort[card.color];
+    let hand, index, colorIndex = cardColorMap[card.color];
     if (player == 1) {
       hand = this.player1Hand
     } else {
@@ -96,22 +96,92 @@ class LostCity {
     index = getCardIndex(hand, card);
     hand.splice(index, 1)
     card.public = true
-    this.discardPileTopCard[colorIndex] = card
-    this.discardPiles[colorIndex].push(card)
+    this.discardPile[colorIndex].push(card)
   }
-  playCard() {
+  playCard(player, card) {
+    let hand, placePile, index, colorIndex = cardColorMap[card.color];
+    if (player == 1) {
+      hand = this.player1Hand
+      placePile = this.player1PlacePile
+    } else {
+      hand = this.player2Hand
+      placePile = this.player2PlacePile
+    }
+    index = getCardIndex(hand, card);
+    hand.splice(index, 1)
+    placePile[colorIndex].push(card)
+  }
+  getPileTopCard(pile = getEmptyPlacePile()) {
+    return pile.map((i, n) => {
+      if (i.length > 0) {
+        return i[i.length-1]
+      } else {
+        let card =
+        { id: -n-1, color: cardColorMap[n], empty: true}
+        return card
+      }
+    })
+  }
+  score() {
 
+  }
+  reset() {
+    this.publicPile = getRandomCards();
+    this.player1Hand = this.publicPile.splice(0, 8)
+    this.player1PlacePile = getEmptyPlacePile()
+    this.discardPile = getEmptyPlacePile(true)
+    this.player2Hand = this.publicPile.splice(0, 8)
+    this.player2PlacePile = getEmptyPlacePile()
+  }
+  get player1PlacePileTopCard() {
+    return this.getPileTopCard(this.player1player1PlacePile)
+  }
+  get player2PlacePileTopCard() {
+    return this.getPileTopCard(this.player2player1PlacePile)
+  }
+  get discardPileTopCard() {
+    return this.getPileTopCard(this.discardPile)
+  }
+  get count() {
+    return this.publicPile.length
   }
 }
 
+const LostCityList = {
+
+}
+
+const LostCityData = {
+  Data(id) {
+    if (!LostCityList[id]) {
+      LostCityList[id] = new LostCity()
+    }
+    return LostCityList[id]
+  },
+  ResetAll() {
+    let keys = Object.keys(LostCityList)
+    keys.forEach(i => {
+      LostCityList[i].reset()
+    })
+  },
+  DeleteAll() {
+    let keys = Object.keys(LostCityList)
+    keys.forEach(i => {
+      delete LostCityList[i]
+    })
+  },
+}
+
+export default LostCityData;
+
 /*
 数据：
-  公共牌堆 [Card]
-  手牌 [Card * 8]
-  放置牌堆 [[Card], [Card], [Card], [Card], [Card]]
-  弃牌堆 [[Card], [Card], [Card], [Card], [Card]]
-  放置牌堆Top牌 [Card * 5] - 通过get方法获得
-  弃牌堆Top牌 [Card * 5] - 通过get方法获得
+  公共牌堆 publicPile [Card]
+  手牌 hand [Card * 8]
+  放置牌堆 placePile [[Card], [Card], [Card], [Card], [Card]]
+  弃牌堆 discardPile [[Card], [Card], [Card], [Card], [Card]]
+  放置牌堆Top牌 placePileTopCard [Card * 5] - 通过get方法获得
+  弃牌堆Top牌 discardPileTopCard [Card * 5] - 通过get方法获得
   公共牌堆牌数 Count - 通过get方法获得
 方法：
   初始化
@@ -122,16 +192,16 @@ class LostCity {
     放置牌堆Top牌 - [EmptyCard * 5]
     弃牌堆Top牌 - [EmptyCard * 5]
     公共牌堆牌数 - Count = 44
-  拿牌
+  拿牌 pickCard - done
     公共牌堆 || 弃牌堆[color] pop
     手牌 push
-  弃牌
+  弃牌 discardCard - done
     手牌 splice
     弃牌堆[color] push
-  出牌
+  出牌 playCard
     手牌 splice
     放置牌堆[color] push
-  结算
+  结算 score
     结算放置牌堆
   get
     放置牌堆Top牌

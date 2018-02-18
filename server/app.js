@@ -15,7 +15,8 @@ let express = require('express'),
 
   api = require('./apis/index');
 
-let socketConfig = require('./sockets/index')
+let socketConfig = require('./sockets/index'),
+    Common = require('./common/common.js')
 let app = express();
 
 // all environments
@@ -51,6 +52,10 @@ let server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 let io = require('socket.io').listen(server);
+let custom_id = 1
+io.engine.generateId = (req) => {
+  return Common.getSocketId(req._query.token)
+}
 io.on('connection', function (socket) {
   console.log("get connected");
   socketConfig(socket)
@@ -60,7 +65,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/Young');
 
 var db = mongoose.connection;
-console.log('db', db)
+// console.log('db', db)
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
   debugger
