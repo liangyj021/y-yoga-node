@@ -77,6 +77,9 @@ class LostCity {
     } else {
       hand = this.player2Hand
     }
+    if (hand.length == 8) {
+      return;
+    }
     if (discardPile) {
       card = this.discardPile[colorIndex].pop();
     } else {
@@ -93,7 +96,13 @@ class LostCity {
     } else {
       hand = this.player2Hand
     }
+    if (hand.length == 7) {
+      return;
+    }
     index = getCardIndex(hand, card);
+    if (index == -1) {
+      return;
+    }
     hand.splice(index, 1)
     card.public = true
     this.discardPile[colorIndex].push(card)
@@ -107,7 +116,13 @@ class LostCity {
       hand = this.player2Hand
       placePile = this.player2PlacePile
     }
+    if (hand.length == 7) {
+      return;
+    }
     index = getCardIndex(hand, card);
+    if (index == -1) {
+      return;
+    }
     hand.splice(index, 1)
     placePile[colorIndex].push(card)
   }
@@ -154,7 +169,11 @@ const LostCityList = {
 const LostCityData = {
   Data(id) {
     if (!LostCityList[id]) {
-      LostCityList[id] = new LostCity()
+      LostCityList[id] = {
+        data: new LostCity(),
+        player1: null,
+        player2: null,
+      }
     }
     return LostCityList[id]
   },
@@ -172,7 +191,7 @@ const LostCityData = {
   },
 }
 
-export default LostCityData;
+module.exports = LostCityData
 
 /*
 数据：

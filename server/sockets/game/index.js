@@ -7,7 +7,7 @@ const GameControl = {
     }
   },
   lostcity(data, socket) {
-
+    LostCity.control(data, socket)
   }
 }
 

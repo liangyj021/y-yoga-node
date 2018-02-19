@@ -2,14 +2,10 @@
 let express = require('express');
 let router = express.Router();
 
-console.log(456);
-
 router.get('*', function(req, res, next) {
   next();
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 

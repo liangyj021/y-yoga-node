@@ -3,18 +3,17 @@ let express = require('express');
 let router = express.Router();
 let todo = require('./todo')
 let game = require('./game')
+let blog = require('./blog')
 
 router.get('*', function(req, res, next) {
-  console.log(req.url, '***');
   next()
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 
 router.use('/todo', todo)
 router.use('/game', game)
+router.use('/blog', blog)
 
 module.exports = router;
