@@ -29,6 +29,16 @@ router.post('/list', function(req, res, next) {
   res.statusCode = 200;
   return res.send(list)
 })
+router.get('/hotlist', function(req, res, next) {
+  let reqParams = req.body;
+  let list = [
+    {id: 1, title: "blog-aaaa", content: "hello world 123", updatedAt: "2018-1-1"},
+    {id: 2, title: "blog-bbbb", content: "aldsjfl hello world 123", updatedAt: "2018-1-1"},
+    {id: 3, title: "blog-cccc", content: "salvjxzl laldsjfl hello world 123", updatedAt: "2018-1-1"},
+  ]
+  res.statusCode = 200;
+  return res.send(list)
+})
 
 router.post('/save', function(req, res, next) {
   let blog = req.body.blog;
@@ -37,7 +47,7 @@ router.post('/save', function(req, res, next) {
 router.get('/blog/:id', function(req, res, next) {
   let id = req.params.id
   let blog = {
-    id, title: "blog-test", contet: "test \n blog \n helloworld", updatedAt: "2018-2-22", categoryId: 1
+    id, title: "blog-test", content: "test \n blog \n helloworld", updatedAt: "2018-2-22", categoryId: 1
   }
   res.statusCode = 200
   return res.send(blog);
