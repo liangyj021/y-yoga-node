@@ -3,28 +3,21 @@ let express = require('express');
 let router = express.Router();
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/Young');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
+mongoose.connect('mongodb://localhost/young');
+var connection = mongoose.connection;
+connection.on('error', console.error.bind(console, 'connection error:'));
+connection.once('open', function() {
+  console.log("mongodb connected!")
 });
 // schema
 var todoSchema = mongoose.Schema({
   title: String,
   id: Number,
   type: String
-});
+}, {collection: 'todolist'});
 
 // model
-var Todolist = mongoose.model('todolist', todoSchema);
-
-// crud
-// var fluffy = new Todolist({ id: 900, title: 'fluffy', type: 'todo' });
-// fluffy.save(function (err, fluffy) {
-//   if (err) return console.error(err);
-//   console.log(fluffy)
-// });
+var Todolist = mongoose.model('Todolist', todoSchema);
 
 router.get('*', function(req, res, next) {
   console.log(req.url, 'todo');
@@ -77,15 +70,15 @@ router.get('/getlist', function(req, res) {
   // }
   // console.log(req.url, 'todo getlist');
   // res.statusCode = 200
-  // return res.send(data);
+  // return res.send({todos:[]});
 
-  res.statusCode = 200
   // 求助～～不知道这里为什么查询 的是是todolists这个表，然而创建的是todolist
-  Todolist.find(function (err, kittens) {
+  Todolist.find({}, function (err, kittens) {
     if (err) return console.error(err);
     console.log(kittens)
     let data = {todos: kittens};
-    res.send(data);
+    res.statusCode = 200
+    return res.send(data);
   })
 });
 

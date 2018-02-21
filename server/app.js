@@ -37,6 +37,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
     res.setHeader('Vary',["Origin", "Accept-Encoding"]);
     res.setHeader('Transfer-Encoding',"chunked");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+    res.setHeader("Expires", "0"); // Proxies.
     next();
 });
 
@@ -61,19 +64,19 @@ io.on('connection', function (socket) {
   socketConfig(socket)
 })
 
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/Young');
-
-var db = mongoose.connection;
-// console.log('db', db)
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  debugger
-  // yay!
-});
-
-var kittySchema = mongoose.Schema({
-  name: String
-})
-
-var Kitten = mongoose.model('Kitten', kittySchema)
+// var mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/Young');
+//
+// var db = mongoose.connection;
+// // console.log('db', db)
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function (callback) {
+//   debugger
+//   // yay!
+// });
+//
+// var kittySchema = mongoose.Schema({
+//   name: String
+// })
+//
+// var Kitten = mongoose.model('Kitten', kittySchema)
