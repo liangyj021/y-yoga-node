@@ -2,7 +2,6 @@
 let express = require('express');
 let router = express.Router();
 let Todolist = require('../common/mongoose').Todolist;
-
 router.get('*', function(req, res, next) {
   console.log(req.url, 'todo');
   next();
@@ -13,16 +12,25 @@ router.post('*', function(req, res, next) {
   next()
 })
 
-router.post('/create', (req, res, next) => {
-  console.log(req)
-  var fluffy = new Todolist({
-    title: req.body.id,
+router.post('/save', (req, res, next) => {
+  let update = new Todolist({
     title: req.body.title,
     type: req.body.type
   });
-  fluffy.save(function (err, fluffy) {
+
+  let query = {title: ''};  // 这里要改！默认查询条件写啥啊？？？
+  if (req.body._id) {
+    update.set('_id', req.body._id);
+    query = {_id: req.body._id};
+  }
+
+  let options = {upsert: true, new: true};
+
+  Todolist.findOneAndUpdate(query, update, options, function (err, doc) {
     if (err) return console.error(err);
-    console.log(fluffy)
+    let data = {todos: doc};
+    res.statusCode = 200
+    return res.send(doc);
   });
 })
 
