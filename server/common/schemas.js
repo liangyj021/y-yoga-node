@@ -1,7 +1,10 @@
-var Schema = require('mongoose').Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const schemas = {
   todoSchema: Schema({
+    _id: ObjectId,
     title: String,
     id: Number,
     type: String
