@@ -7,7 +7,7 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function() {
   console.log("mongodb connected!")
 });
-
+mongoose.set('debug', true);
 // model
 var Todolist = mongoose.model('Todolist', schemas.todoSchema);
 
