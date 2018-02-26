@@ -4,6 +4,7 @@ let router = express.Router();
 let Userlist = require('../common/mongoose').Userlist;
 let Tokenlist = require('../common/mongoose').Tokenlist;
 let Common = require('../common/common.js');
+let MailSender = require('../common/mailSender');
 
 router.get('*', function(req, res, next) {
   console.log(req.url, 'todo');
@@ -74,6 +75,7 @@ router.get('/logout', (req, res, next) => {
 })
 
 router.post('/register', function(req, res) {
+  MailSender.sendMail('onlysuncolour@sina.com', "test")
   res.statusCode = 200;
   return res.send({})
 });
