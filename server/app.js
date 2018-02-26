@@ -16,7 +16,9 @@ let express = require('express'),
   api = require('./apis/index');
 
 let socketConfig = require('./sockets/index'),
-    Common = require('./common/common.js')
+    Common = require('./common/common.js'),
+    Tokenlist = require('./common/mongoose').Tokenlist;
+
 let app = express();
 
 // all environments
@@ -40,7 +42,17 @@ app.use(function (req, res, next) {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     res.setHeader("Expires", "0"); // Proxies.
-    next();
+
+    if (req.cookies.y_token) {
+      Tokenlist.findOne({token: req.cookies.y_token}, (err, user) => {
+        if (user) {
+          req.user = user
+        }
+        next()
+      })
+    } else {
+      next()
+    }
 });
 
 app.use('/api', api);

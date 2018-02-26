@@ -15,6 +15,7 @@ router.post('/category', function(req, res, next) {
     {id: 2, name: "category-b"},
     {id: 3, name: "category-c"},
   ]
+  console.log(req.user)
   res.statusCode = 200;
   return res.send(category)
 })

@@ -8,9 +8,9 @@ connection.once('open', function() {
   console.log("mongodb connected!")
 });
 mongoose.set('debug', true);
-// model
-var Todolist = mongoose.model('Todolist', schemas.todoSchema);
 
 module.exports = {
-  Todolist
+  Todolist:  mongoose.model('Todolist', schemas.todoSchema),
+  Userlist: mongoose.model('Userlist', schemas.userSchema),
+  Tokenlist: mongoose.model('Tokenlist', schemas.tokenSchema),
 }

@@ -10,7 +10,7 @@ const schemas = {
     type: String
   }, {collection: 'todolist'}),
   blogSchema: Schema({
-    id: Number,
+    // id: Number,
     title: String,
     content: String,
     brief: String,
@@ -22,17 +22,23 @@ const schemas = {
     updated_at: String
   }, {collection: 'bloglist'}),
   blogTagSchema: Schema({
-    id: Number,
+    // id: Number,
     title: String
   }, {collection: 'blogtag'}),
   userSchema: Schema({
-    id: Number,
-    name: Number,
+    // id: Number,
+    name: String,
+    password: String,
     is_admin: Boolean,
-    socket_id: String,
+    // socket_id: String,
     last_login_at: String,
-    created_at: String
-  }, {collection: 'userlist'})
+    created_at: String,
+  }, {collection: 'userlist'}),
+  tokenSchema: Schema({
+    token: String,
+    userId: String,
+    userName: String,
+  }, {collection: 'tokenlist'}),
 }
 
 module.exports = schemas
