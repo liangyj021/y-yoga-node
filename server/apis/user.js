@@ -75,7 +75,7 @@ router.get('/logout', (req, res, next) => {
 })
 
 router.post('/register', function(req, res) {
-  MailSender.sendMail('onlysuncolour@sina.com', "test")
+  MailSender.sendMail('onlysuncolour@sina.com', "这是来自你老公的一封邮件", "我爱你～<br /> 一辈子！")
   res.statusCode = 200;
   return res.send({})
 });

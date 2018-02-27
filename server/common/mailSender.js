@@ -4,10 +4,12 @@ const MailSender = {
   config: {
     defaultFrom: '"young & yoga" <y1yoga1node@gmail.com>',
     defaultTransport: nodemailer.createTransport({
-        service: 'Gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: true, // true for 465, false for other ports
         auth: {
             user: 'y1yoga1node@gmail.com',
-            pass: '19901993',
+            pass: '1111111',
         }
     })
   },
