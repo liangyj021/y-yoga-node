@@ -2,6 +2,8 @@
 let express = require('express');
 let router = express.Router();
 let Todolist = require('../common/mongoose').Todolist;
+let newId =  require('../common/mongoose').newId;
+
 router.get('*', function(req, res, next) {
   next();
   // console.log(req);
@@ -17,7 +19,7 @@ router.post('/save', (req, res, next) => {
     type: req.body.type
   });
 
-  let query = {title: ''};  // 这里要改！默认查询条件写啥啊？？？
+  let query = {_id: req.body._id || newId()};  // 这里要改！默认查询条件写啥啊？？？
   if (req.body._id) {
     update.set('_id', req.body._id);
     query = {_id: req.body._id};

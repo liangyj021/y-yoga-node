@@ -10,6 +10,7 @@ connection.once('open', function() {
 mongoose.set('debug', true);
 
 module.exports = {
+  newId: mongoose.mongo.ObjectID,
   Todolist:  mongoose.model('Todolist', schemas.todoSchema),
   Userlist: mongoose.model('Userlist', schemas.userSchema),
   Tokenlist: mongoose.model('Tokenlist', schemas.tokenSchema),
