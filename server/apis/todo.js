@@ -18,15 +18,9 @@ router.post('/save', (req, res, next) => {
     title: req.body.title,
     type: req.body.type
   });
-
   let query = {_id: req.body._id || newId()};  // 这里要改！默认查询条件写啥啊？？？
-  if (req.body._id) {
-    update.set('_id', req.body._id);
-    query = {_id: req.body._id};
-  }
-
   let options = {upsert: true, new: true};
-
+  
   Todolist.findOneAndUpdate(query, update, options, function (err, doc) {
     if (err) return console.error(err);
     let data = {todos: doc};
