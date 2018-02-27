@@ -14,6 +14,7 @@ db.todolist.find()
 
 -- 27 feb
 tags = ([
+  {title: '全部', key: 0},
   {title: 'javascript', key: 1},
   {title: 'nodejs', key: 2},
   {title: '吃', key: 3},
