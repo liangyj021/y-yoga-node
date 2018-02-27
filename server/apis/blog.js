@@ -35,14 +35,14 @@ router.post('/list', function(req, res, next) {
   })
 })
 router.get('/hotlist', function(req, res, next) {
-  let reqParams = req.body;
-  let list = [
-    {id: 1, title: "blog-aaaa", content: "hello world 123", updatedAt: "2018-1-1"},
-    {id: 2, title: "blog-bbbb", content: "aldsjfl hello world 123", updatedAt: "2018-1-1"},
-    {id: 3, title: "blog-cccc", content: "salvjxzl laldsjfl hello world 123", updatedAt: "2018-1-1"},
-  ]
-  res.statusCode = 200;
-  return res.send(list)
+  BlogList.find({is_hot: true}, (err, datas) => {
+    if (err) {
+      res.statusCode = 500;
+      return res.send({})
+    }
+    res.statusCode = 200;
+    return res.send(datas)
+  })
 })
 
 router.post('/save', function(req, res, next) {
