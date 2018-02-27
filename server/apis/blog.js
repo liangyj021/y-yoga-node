@@ -3,6 +3,7 @@ let express = require('express');
 let router = express.Router();
 let BlogList = require('../common/mongoose').BlogList;
 let BlogTagList = require('../common/mongoose').BlogTagList;
+let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
   next()
@@ -46,25 +47,14 @@ router.get('/hotlist', function(req, res, next) {
 
 router.post('/save', function(req, res, next) {
   let blog = req.body;
-  if (blog._id) {
-    BlogList.findOneAndUpdate({_id: blog._id}, blog, {new: true}, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        return res.send({})
-      }
-      res.statusCode = 200;
-      return res.send(data)
-    })
-  } else {
-    BlogList.create(blog, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        return res.send({})
-      }
-      res.statusCode = 200;
-      return res.send(data)
-    })
-  }
+  BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      return res.send({})
+    }
+    res.statusCode = 200;
+    return res.send(data)
+  })
 })
 
 router.get('/blog/:id', function(req, res, next) {
