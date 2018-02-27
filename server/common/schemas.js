@@ -16,14 +16,15 @@ const schemas = {
     brief: String,
     author: String,
     author_id: String,
-    tags: Array,
+    tags: [Number],
     is_hot: Boolean,
     created_at: String,
-    updated_at: String
+    updated_at: String,
   }, {collection: 'bloglist'}),
   blogTagSchema: Schema({
     // id: Number,
-    title: String
+    title: String,
+    key: Number,
   }, {collection: 'blogtag'}),
   userSchema: Schema({
     // id: Number,

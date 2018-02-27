@@ -13,4 +13,6 @@ module.exports = {
   Todolist:  mongoose.model('Todolist', schemas.todoSchema),
   Userlist: mongoose.model('Userlist', schemas.userSchema),
   Tokenlist: mongoose.model('Tokenlist', schemas.tokenSchema),
+  BlogList: mongoose.model('BlogList', schemas.blogSchema),
+  BlogTagList: mongoose.model('BlogTagList', schemas.blogTagSchema),
 }
