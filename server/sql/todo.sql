@@ -33,5 +33,4 @@ blog = {
   is_hot: true,
 }
 db.bloglist.insert(blog)
-
 -- 27 feb

@@ -20,7 +20,7 @@ router.post('/save', (req, res, next) => {
   });
   let query = {_id: req.body._id || newId()};  // 这里要改！默认查询条件写啥啊？？？
   let options = {upsert: true, new: true};
-  
+
   Todolist.findOneAndUpdate(query, update, options, function (err, doc) {
     if (err) return console.error(err);
     let data = {todos: doc};
@@ -31,7 +31,6 @@ router.post('/save', (req, res, next) => {
 
 /* GET home page. */
 router.get('/getlist', function(req, res) {
-  // 求助～～不知道这里为什么查询 的是是todolists这个表，然而创建的是todolist
   Todolist.find({}, function (err, kittens) {
     if (err) return console.error(err);
     let data = {todos: kittens};

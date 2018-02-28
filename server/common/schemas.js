@@ -20,7 +20,7 @@ const schemas = {
     is_hot: Boolean,
     created_at: String,
     updated_at: String,
-  }, {collection: 'bloglist'}),
+  }, {collection: 'bloglist', versionKey: false}),
   blogTagSchema: Schema({
     // id: Number,
     title: String,

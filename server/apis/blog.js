@@ -49,6 +49,7 @@ router.post('/save', function(req, res, next) {
   let blog = req.body;
   BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
+      console.log(err);
       res.statusCode = 500;
       return res.send({})
     }
@@ -59,13 +60,13 @@ router.post('/save', function(req, res, next) {
 
 router.get('/blog/:id', function(req, res, next) {
   let id = req.params.id
-  BlogList.findOne({_id: id}, (err, datas) => {
+  BlogList.findOne({_id: id}, (err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
     }
     res.statusCode = 200;
-    return res.send(datas)
+    return res.send(data)
   })
 })
 
