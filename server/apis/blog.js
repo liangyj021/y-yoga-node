@@ -47,6 +47,9 @@ router.get('/hotlist', function(req, res, next) {
 
 router.post('/save', function(req, res, next) {
   let blog = req.body;
+  blog.is_hot = true
+  setBrief(blog)
+  console.log(blog);
   BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
       console.log(err);
@@ -69,5 +72,29 @@ router.get('/blog/:id', function(req, res, next) {
     return res.send(data)
   })
 })
+
+const setBrief = (blog) => {
+  console.log(1111111111111111);
+  if (!blog.brief) {
+    let brief = blog.content;
+    let markdownKeywords = {
+      space: ['\n*', '##', '#', '```', '`', '___', '\n' ],
+      none: ['**', '*', '~~'],
+      space2: ['     ', '    ', '   ', '  ']
+    }
+    markdownKeywords.space.forEach(key => {
+      brief = brief.split(key).join(' ')
+    })
+    markdownKeywords.none.forEach(key => {
+      brief = brief.split(key).join('')
+    })
+    markdownKeywords.space2.forEach(key => {
+      brief = brief.split(key).join(' ')
+    })
+    console.log(brief);
+    blog.ibrief = brief.substring(0, 200)
+
+  }
+}
 
 module.exports = router;

@@ -14,6 +14,7 @@ const schemas = {
     title: String,
     content: String,
     brief: String,
+    ibrief: String,
     author: String,
     author_id: String,
     tags: [Number],
