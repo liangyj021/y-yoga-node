@@ -16,9 +16,11 @@ router.post('*', function(req, res, next) {
 router.post('/save', (req, res, next) => {
   let update = new Todolist({
     title: req.body.title,
-    type: req.body.type
+    type: req.body.type,
+    createdAt: req.body.createdAt,
+    updatedAt: req.body.updatedAt || req.body.createdAt,
   });
-  let query = {_id: req.body._id || newId()};  // 这里要改！默认查询条件写啥啊？？？
+  let query = {_id: req.body._id || newId()};
   let options = {upsert: true, new: true};
 
   Todolist.findOneAndUpdate(query, update, options, function (err, doc) {
@@ -29,14 +31,19 @@ router.post('/save', (req, res, next) => {
   });
 })
 
-/* GET home page. */
 router.get('/getlist', function(req, res) {
-  Todolist.find({}, function (err, kittens) {
+  Todolist.find({}, function (err, datas) {
     if (err) return console.error(err);
-    let data = {todos: kittens};
+    let data = {todos: datas};
     res.statusCode = 200
     return res.send(data);
   })
 });
+
+router.get('/updateSQL', function(req, res) {
+  Todolist.find({}, function (err, datas) {
+
+  })
+})
 
 module.exports = router;

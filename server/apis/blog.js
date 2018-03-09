@@ -47,7 +47,7 @@ router.get('/hotlist', function(req, res, next) {
 
 router.post('/save', function(req, res, next) {
   let blog = req.body;
-  blog.is_hot = true
+  blog.isHot = true
   setBrief(blog)
   console.log(blog);
   BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
@@ -73,8 +73,18 @@ router.get('/blog/:id', function(req, res, next) {
   })
 })
 
+// router.get('/updateSQL', function(req, res, next) {
+//   updateSQL()
+//   return;
+// })
+//
+// const updateSQL = () => {
+//   BlogList.find({}, (err, datas) => {
+//
+//   })
+// }
+
 const setBrief = (blog) => {
-  console.log(1111111111111111);
   if (!blog.brief) {
     let brief = blog.content;
     let markdownKeywords = {
@@ -91,9 +101,7 @@ const setBrief = (blog) => {
     markdownKeywords.space2.forEach(key => {
       brief = brief.split(key).join(' ')
     })
-    console.log(brief);
     blog.ibrief = brief.substring(0, 200)
-
   }
 }
 
