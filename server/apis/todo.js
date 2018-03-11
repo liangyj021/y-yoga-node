@@ -42,7 +42,15 @@ router.get('/getlist', function(req, res) {
 
 router.get('/updateSQL', function(req, res) {
   Todolist.find({}, function (err, datas) {
-
+    // if (datas.length > 0) {
+    //   datas.forEach((i, n) => {
+    //     Todolist.findOneAndUpdate({_id: i._id}, {
+    //       updatedAt: n,
+    //       createdAt: n
+    //     }, (err, data) => {
+    //     })
+    //   })
+    // }
   })
 })
 

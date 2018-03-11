@@ -36,8 +36,8 @@ const schemas = {
     password: String,
     isAdmin: Boolean,
     // socket_id: String,
-    lastLoginAt: String,
-    createdAt: String,
+    lastLoginAt: Number,
+    createdAt: Number,
   }, {collection: 'userlist'}),
   tokenSchema: Schema({
     token: String,

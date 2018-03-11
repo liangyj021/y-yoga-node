@@ -27,10 +27,12 @@ blog = {
   title: "第一篇blog",
   content: "这是我的第一篇博文",
   brief:  "这是我的第一篇博文",
-  author: "young",
-  author_id: "5a9254a9eea5ea64c22a385b",
+  author: "yoga",
+  authorId: "5aa50f045658922963664507",
   tags: [1],
-  is_hot: true,
+  isHot: true,
+  createdAt: 1,
+  updatedAt: 2
 }
 db.bloglist.insert(blog)
 -- 27 feb
