@@ -40,6 +40,16 @@ router.get('/getlist', function(req, res) {
   })
 });
 
+router.post('/deleteOne', function(req, res) {
+  let todo = new Todolist({_id: req.id})
+  Todolist.deleteOne(todo, function (err, datas) {
+    if (err) return console.error(err);
+    let data = {todos: datas};
+    res.statusCode = 200
+    return res.send(data);
+  })
+});
+
 router.get('/updateSQL', function(req, res) {
   Todolist.find({}, function (err, datas) {
     // if (datas.length > 0) {
