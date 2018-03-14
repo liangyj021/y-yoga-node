@@ -41,7 +41,7 @@ router.get('/getlist', function(req, res) {
 });
 
 router.post('/deleteOne', function(req, res) {
-  let todo = new Todolist({_id: req.id})
+  let todo = new Todolist({_id: req.body._id})
   Todolist.deleteOne(todo, function (err, datas) {
     if (err) return console.error(err);
     let data = {todos: datas};
