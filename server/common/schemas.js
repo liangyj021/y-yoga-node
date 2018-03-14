@@ -44,6 +44,11 @@ const schemas = {
     userId: String,
     userName: String,
   }, {collection: 'tokenlist'}),
+  keywordsSchema: Schema({
+    key: String,
+    type: String,
+    words: [String],
+  }, {collection: 'keywordslist'}),
 }
 
 module.exports = schemas

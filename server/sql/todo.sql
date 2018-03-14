@@ -36,3 +36,14 @@ blog = {
 }
 db.bloglist.insert(blog)
 -- 27 feb
+
+-- 13 Mar
+
+list = ([
+  {name: 'young', }
+
+])
+
+keywordslist
+
+-- 13 Mar
