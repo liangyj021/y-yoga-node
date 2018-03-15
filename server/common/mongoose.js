@@ -7,7 +7,7 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function() {
   console.log("mongodb connected!")
 });
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 module.exports = {
   newId: mongoose.mongo.ObjectID,
@@ -16,4 +16,5 @@ module.exports = {
   Tokenlist: mongoose.model('Tokenlist', schemas.tokenSchema),
   BlogList: mongoose.model('BlogList', schemas.blogSchema),
   BlogTagList: mongoose.model('BlogTagList', schemas.blogTagSchema),
+  KeywordsList: mongoose.model('KeywordsList', schemas.keywordsSchema),
 }

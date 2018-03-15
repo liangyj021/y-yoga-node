@@ -39,11 +39,19 @@ db.bloglist.insert(blog)
 
 -- 13 Mar
 
-list = ([
-  {name: 'young', }
-
+keywordlist = ([
+  {name: 'young', type: 'us', words: ["聪明", "熟练使用javascript", "vue.js", "react.js", "es6", "nodejs", "喜欢桌游"]},
+  {name: 'yoga', type: 'us', words: ["好看", "爱好摄影", "javascript", "vue.js", "nginx", "es6", "nodejs"]},
+  {name: 'techwords', type: 'youngCircle', words: [ "JAVASCRIPT", "NODEJS", "SOCKET.IO", "REACT", "VUE.JS", "ANGULAR", "EXPRESS", "ECMASCRIPT", "WEBPACK", "GRAPHQL"]} ,
+  {name: 'jskeywords', type: 'youngCircle', words: [ "VAR", "ASYNC", "AWAIT", "LET", "CALLBACK", "CONSOLE.LOG", "DEBUGGER", "CONST", "FUNCTION", "REQUIRE", "EXPORTS"]},
+  {name: 'tvplaywords', type: 'youngCircle', words: [ "BREAKING BAD", "THIS IS US", "BOJACK HORSEMAN", "GAME OF THRONES", "STRAIN", "MR. PICKLES", "SPARTACUS", "AMERICAN GODS"]},
+  {name: 'famouswords', type: 'youngCircle', words: [ "HELLO WORLD", "FREE THINKING", "FSOCIETY", "HACKER", "YOUNG", "KEEP FOOLISH", "DESIGN"]},
+  {name: 'famouspeople', type: 'youngCircle', words: ["ALAN TURING","VON NEUMANN","CLAUDE ELWOOD SHANNON","Archimedes","Galileo","Newton","Maxwell","Kepler","Gauss","Albert.Einstein","Faraday","NIKOLA TESLA","LEONARDO DA VINCI"]},
+  {name: 'techwords2', type: 'youngCircle', words: [ "DEEP LEARN", "ARTIFICIAL INTELLIGENCE", "INTERNET OF THINGS", "BLOCKCHAIN", "BIG DATA", "CLOUD COMPUTING"]},
+  {name: 'normalwords', type: 'youngCircle', words: [ "WORK EAT TALK", "SLEEP SEX RUN", "WALK THINK WATCH", "SUN MOON STAR", "COFFEE TEA JUICE", "RICE DUMPLING NOODLES", "BUTTER BREAD EGG", "LOVE FEELING WORLD"]},
+  {name: 'normalwords2', type: 'youngCircle', words: [ "GREEN RED HALO", "CONVERSATION INSPIRATION FUTURE", "AMIGO WISDOM TOGETHER", "COMMUNITY HARD WINNER", "LA LA LAND", "WHISKY VODKA GIN", "TEQUILA RUM BRANDY", "LIQUEUR CHAMPAGNE BAILEYS"]},
 ])
 
-keywordslist
+db.keywordslist.insert(keywordlist)
 
 -- 13 Mar
