@@ -46,6 +46,7 @@ app.use(function (req, res, next) {
     if (req.cookies.y_token) {
       Tokenlist.findOne({token: req.cookies.y_token}, (err, user) => {
         if (user) {
+          console.log("user", user);
           req.user = user
         }
         next()

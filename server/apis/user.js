@@ -52,9 +52,16 @@ router.post('/login', (req, res, next) => {
 router.get('/me', (req, res, next) => {
   let user
   if (req.user && req.user._id) {
-    res.statusCode = 200;
-    user = req.user
-    return res.send(user)
+    Userlist.findOne({_id: req.user.userId}, (err, data) => {
+      if (err) {
+        console.log("error", error);
+        res.statusCode = 500;
+        return res.send({})
+      }
+      res.statusCode = 200;
+      user = data
+      return res.send(user)
+    })
   } else {
     res.statusCode = 401;
     return res.send({})

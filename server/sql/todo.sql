@@ -46,7 +46,7 @@ keywordlist = ([
   {name: 'jskeywords', type: 'youngCircle', words: [ "VAR", "ASYNC", "AWAIT", "LET", "CALLBACK", "CONSOLE.LOG", "DEBUGGER", "CONST", "FUNCTION", "REQUIRE", "EXPORTS"]},
   {name: 'tvplaywords', type: 'youngCircle', words: [ "BREAKING BAD", "THIS IS US", "BOJACK HORSEMAN", "GAME OF THRONES", "STRAIN", "MR. PICKLES", "SPARTACUS", "AMERICAN GODS"]},
   {name: 'famouswords', type: 'youngCircle', words: [ "HELLO WORLD", "FREE THINKING", "FSOCIETY", "HACKER", "YOUNG", "KEEP FOOLISH", "DESIGN"]},
-  {name: 'famouspeople', type: 'youngCircle', words: ["ALAN TURING","VON NEUMANN","CLAUDE ELWOOD SHANNON","Archimedes","Galileo","Newton","Maxwell","Kepler","Gauss","Albert.Einstein","Faraday","NIKOLA TESLA","LEONARDO DA VINCI"]},
+  {name: 'famouspeople', type: 'youngCircle', words: ["ALAN TURING","VON NEUMANN","CLAUDE ELWOOD SHANNON","ARCHIMEDES","GALILEO","NEWTON","MAXWELL","KEPLER","GAUSS","ALBERT.EINSTEIN","FARADAY","NIKOLA TESLA","LEONARDO DA VINCI"]},
   {name: 'techwords2', type: 'youngCircle', words: [ "DEEP LEARN", "ARTIFICIAL INTELLIGENCE", "INTERNET OF THINGS", "BLOCKCHAIN", "BIG DATA", "CLOUD COMPUTING"]},
   {name: 'normalwords', type: 'youngCircle', words: [ "WORK EAT TALK", "SLEEP SEX RUN", "WALK THINK WATCH", "SUN MOON STAR", "COFFEE TEA JUICE", "RICE DUMPLING NOODLES", "BUTTER BREAD EGG", "LOVE FEELING WORLD"]},
   {name: 'normalwords2', type: 'youngCircle', words: [ "GREEN RED HALO", "CONVERSATION INSPIRATION FUTURE", "AMIGO WISDOM TOGETHER", "COMMUNITY HARD WINNER", "LA LA LAND", "WHISKY VODKA GIN", "TEQUILA RUM BRANDY", "LIQUEUR CHAMPAGNE BAILEYS"]},
