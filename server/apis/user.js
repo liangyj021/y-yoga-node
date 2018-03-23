@@ -7,7 +7,7 @@ let Common = require('../common/common.js');
 let MailSender = require('../common/mailSender');
 
 router.get('*', function(req, res, next) {
-  console.log(req.url, 'todo');
+  console.log('user request');
   next();
 })
 router.post('*', function(req, res, next) {
@@ -51,6 +51,7 @@ router.post('/login', (req, res, next) => {
 
 router.get('/me', (req, res, next) => {
   let user
+  console.log('user me');
   if (req.user && req.user._id) {
     Userlist.findOne({_id: req.user.userId}, (err, data) => {
       if (err) {

@@ -4,7 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const schemas = {
   todoSchema: Schema({
-    _id: ObjectId,
+    // _id: ObjectId,
     title: String,
     id: Number,
     type: String,
