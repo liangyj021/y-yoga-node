@@ -26,11 +26,8 @@ router.post('/login', (req, res, next) => {
       res.statusCode = 401;
       return res.send({})
     }
-    let me = {
-      userId: data._id,
-      userName: data.name
-    }
-    Tokenlist.remove({userId: data.id}, (error) => {
+    let me = data
+    Tokenlist.remove({userId: data._id}, (error) => {
       if (error) {
         console.log("error", error);
         res.statusCode = 500;
@@ -39,7 +36,8 @@ router.post('/login', (req, res, next) => {
       let token = Common.uuid()
       Tokenlist.create({
         token,
-        ...me,
+        userId: data._id,
+        userName: data.name,
       }, (err, doc) => {
         res.cookie('y_token',token);
         res.statusCode = 200;
