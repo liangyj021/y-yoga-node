@@ -13,12 +13,12 @@ router.post('*', function(req, res, next) {
 })
 
 router.get('/us', function(req, res, next) {
-  let me = req.query.me;
-  if (!me) {
+  let keyword = req.query.keyword;
+  if (!keyword) {
     res.statusCode = 200;
     return res.send({})
   }
-  KeywordsList.findOne({type: 'us', name: me}, (err, data) => {
+  KeywordsList.findOne({type: 'us', name: keyword}, (err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
