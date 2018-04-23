@@ -1,11 +1,12 @@
-let GameList = require('../../controllers/lostCity/data.js')
+let Controller = require('../../controllers/lostCity/controller')
+// let GameList = require('../../controllers/lostCity/data.js')
 const LostCity = {
-  control(data, socket) {
+  control: async function(data, socket) {
     switch (data.type) {
       case 'joinRoom':
-
+        let gameData = await Controller.joinRoom(socket.id, data.anotherPlayerId)
+        return gameData
         break;
-
       case 'playCard':
 
         break;

@@ -62,13 +62,34 @@ const getCardIndex = (pile, card) => {
 }
 
 class LostCity {
-  constructor() {
-    this.publicPile = getRandomCards();
-    this.player1Hand = this.publicPile.splice(0, 8)
-    this.player1PlacePile = getEmptyPlacePile()
-    this.discardPile = getEmptyPlacePile(true)
-    this.player2Hand = this.publicPile.splice(0, 8)
-    this.player2PlacePile = getEmptyPlacePile()
+  constructor(data) {
+    if (data.roomId) {
+      this.publicPile = data.publicPile
+      this.player1Hand = data.player1Hand
+      this.player1PlacePile = data.player1PlacePile
+      this.discardPile = data.discardPile
+      this.player2Hand = data.player2Hand
+      this.player2PlacePile = data.player2PlacePile
+      this.currentPlayer = data.currentPlayer
+      this.currentStage = data.currentStage
+      this.roomId = data.roomId
+    } else {
+      this.publicPile = getRandomCards();
+      this.player1Hand = this.publicPile.splice(0, 8)
+      this.player1PlacePile = getEmptyPlacePile()
+      this.discardPile = getEmptyPlacePile(true)
+      this.player2Hand = this.publicPile.splice(0, 8)
+      this.player2PlacePile = getEmptyPlacePile()
+      this.currentPlayer = 1
+      this.currentStage = 0
+    }
+  }
+  setRoomId(roomId) {
+    if (this.roomId) {
+      return false
+    }
+    this.roomId = roomId;
+    return roomId
   }
   pickCard(player, discardPile) {
     let hand, card, colorIndex = cardColorMap[discardPile];
@@ -148,6 +169,19 @@ class LostCity {
     this.player2Hand = this.publicPile.splice(0, 8)
     this.player2PlacePile = getEmptyPlacePile()
   }
+  get _AllCards() {
+    return {
+      publicPile: this.publicPile,
+      player1Hand: this.player1Hand,
+      player1PlacePile: this.player1PlacePile,
+      discardPile: this.discardPile,
+      player2Hand: this.player2Hand,
+      player2PlacePile: this.player2PlacePile,
+      currentPlayer: this.currentPlayer,
+      currentStage: this.currentStage,
+      roomId: this.roomId,
+    }
+  }
   get player1PlacePileTopCard() {
     return this.getPileTopCard(this.player1player1PlacePile)
   }
@@ -162,36 +196,7 @@ class LostCity {
   }
 }
 
-const LostCityList = {
-
-}
-
-const LostCityData = {
-  Data(id) {
-    if (!LostCityList[id]) {
-      LostCityList[id] = {
-        data: new LostCity(),
-        player1: null,
-        player2: null,
-      }
-    }
-    return LostCityList[id]
-  },
-  ResetAll() {
-    let keys = Object.keys(LostCityList)
-    keys.forEach(i => {
-      LostCityList[i].reset()
-    })
-  },
-  DeleteAll() {
-    let keys = Object.keys(LostCityList)
-    keys.forEach(i => {
-      delete LostCityList[i]
-    })
-  },
-}
-
-module.exports = LostCityData
+module.exports = LostCity
 
 /*
 数据：
