@@ -3,12 +3,12 @@ let Controller = require('../../controllers/lostCity/controller')
 const LostCity = {
   control: async function(data, socket) {
     switch (data.type) {
-      case 'joinRoom':
-        let gameData = await Controller.joinRoom(socket.id, data.anotherPlayerId)
+      case 'startGame': 
+        let gameData = await Controller.startGame(socket.id, data.partnerId)
         return gameData
         break;
       case 'playCard':
-
+        
         break;
       case 'dropCard':
 
@@ -36,7 +36,7 @@ module.exports = LostCity
 /*
 
 data {
-  type 'joinRoom'
+  type 'startGame'
 
   type 'playCard'
 

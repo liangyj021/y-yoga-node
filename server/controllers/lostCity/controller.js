@@ -2,7 +2,28 @@ const LostCityList = require('../../common/mongoose').LostCityList;
 const LostDataData = require('./data')
 
 const LostCityController = {
-  joinRoom(playerId1, playerId2) {
+  currentGames: [],
+  getGameById(roomId) {
+    let gameArr = this.currentGames.filter(i=>i.roomId==roomId)
+    if (gameArr.length > 0) {
+      return gameArr[0]
+    } else {
+      return new Promist((res, rej) => {
+        LostCityList.findById(roomId).exec((err, data) => {
+          if (err) {
+            res({code: 0, msg: "error"})
+          }
+          if (data) {
+            this.currentGames.push(data)
+            res(data)
+          } else {
+            res({code: 0, msg: "no game"})
+          }
+        })
+      })
+    }
+  },
+  startGame(playerId1, playerId2) {
     return new Promise((res, rej) => {
       let cb = (lostCityData) => {
         let data = {
@@ -25,26 +46,42 @@ const LostCityController = {
           res(lostCityData)
         })
       }
-      LostCityList.findOne({$or: [{player1: playerId1}, {player2: playerId1}]}, (err, data) => {
+      if (!playerId2) {
+        res({ code: 0, msg: 'waiting' })
+        return;
+      }
+      LostCityList.find({$or: [{player1: playerId1}, {player2: playerId1}, {player1: playerId2}, {player2: playerId2}]}, (err, datas) => {
         if (err) {
-          res({ code: 0, msg: 'error' })
+          return res({ code: 0, msg: 'error' })
         }
-        if (!playerId2) {
-          res({ code: 0, msg: 'waiting' })
+        if (datas.length==0) {
+          return cb(new LostDataData())
         }
-        if (!data||!data.id) {
-          cb(new LostDataData())
+        if (datas.length > 1) {
+          return res({ code: 0, msg: "Reset All?"})
         }
-        if (data.player2!=playerId2) {
-          res({ code: 0, msg: 'reset game?' })
-        }
-        if (data.player2 == playerId2) {
-          data.roomId = data._id
-          res( LostDataData(data) )
+        if ((datas[0].player1==playerId1&&datas[0].player2==playerId2) || (datas[0].player2==playerId1&&datas[0].player1==playerId2)) {
+          datas[0].roomId = datas[0]._id
+          return res(datas[0])
+        } else {
+          return res({ code: 0, msg: "Reset All?"})
         }
       })
     })
-  }
+  },
+  resetGame(gameIds) {
+    for (let index = this.currentGames.length-1; index >=0; index--) {
+      if (gameIds.indexOf(this.currentGames[index].roomId)>-1) {
+        this.currentGames.splice(index, 1)
+      }
+    }
+    LostCityList.remove({$or: gameIds.map(_id => ({_id}))}, (err, datas) => {
+      if (err) {
+        return res({code: 0, msg: "error"})
+      }
+      return res({code: 1})
+    })
+  },
 }
 
 module.exports = LostCityController
