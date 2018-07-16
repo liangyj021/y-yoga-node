@@ -1,4 +1,7 @@
-module.exports = {
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+module.exports = Schema({
   // id: Number,
   title: String,
   content: String,
@@ -6,9 +9,8 @@ module.exports = {
   ibrief: String,
   author: String,
   authorId: String,
-  author_id: String,
   tags: [Number],
   isHot: Boolean,
   createdAt: Number,
   updatedAt: Number,
-}
+}, {collection: 'bloglist', versionKey: false})

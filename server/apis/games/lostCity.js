@@ -9,6 +9,7 @@ router.post('*', function(req, res, next) {
   next()
 })
 
+
 router.post('/joinGame', function(req, res) {
   res.statusCode = 200
   let data = {

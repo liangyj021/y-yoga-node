@@ -9,15 +9,15 @@ const userSchema = require('./schemas/userSchema')
 const tokenSchema = require('./schemas/tokenSchema')
 const keywordsSchema = require('./schemas/keywordsSchema')
 const lostCitySchema = require('./schemas/lostCitySchema')
+const baseListSchema = require('./schemas/baseListSchema')
 
-const schemas = {
-  todoSchema: Schema(todoSchema, {collection: 'todolist'}),
-  blogSchema: Schema(blogSchema, {collection: 'bloglist', versionKey: false}),
-  blogTagSchema: Schema(blogTagSchema, {collection: 'blogtag'}),
-  userSchema: Schema(userSchema, {collection: 'userlist'}),
-  tokenSchema: Schema(tokenSchema, {collection: 'tokenlist'}),
-  keywordsSchema: Schema(keywordsSchema, {collection: 'keywordslist'}),
-  lostCitySchema: Schema(lostCitySchema, {collection: 'lostcitylist'}),
+module.exports = {
+  todoSchema,
+  blogSchema,
+  blogTagSchema,
+  userSchema,
+  tokenSchema,
+  keywordsSchema,
+  lostCitySchema,
+  baseListSchema,
 }
-
-module.exports = schemas

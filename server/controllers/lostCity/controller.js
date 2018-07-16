@@ -69,6 +69,27 @@ const LostCityController = {
       })
     })
   },
+  playCard() {
+    
+  },
+  dropCard() {
+
+  },
+  pickCard() {
+
+  },
+  getActionDesc() {
+
+  },
+  getScroes() {
+
+  },
+  resetGameByPlayerId() {
+
+  },
+  resetGameById() {
+
+  },
   resetGame(gameIds) {
     for (let index = this.currentGames.length-1; index >=0; index--) {
       if (gameIds.indexOf(this.currentGames[index].roomId)>-1) {

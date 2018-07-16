@@ -1,4 +1,7 @@
-module.exports = {
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+module.exports = Schema({
   // id: Number,
   name: String,
   password: String,
@@ -6,4 +9,4 @@ module.exports = {
   // socket_id: String,
   lastLoginAt: Number,
   createdAt: Number,
-}
+}, {collection: 'userlist'})

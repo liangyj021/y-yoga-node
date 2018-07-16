@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = Schema({
+  // id: Number,
   key: String,
-  type: String,
-  words: [String],
-}, {collection: 'keywordslist'})
+  value: String,
+}, {collection: 'baselist', versionKey: false})

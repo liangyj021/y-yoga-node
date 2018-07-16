@@ -1,4 +1,7 @@
-module.exports = {
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+module.exports = Schema({
   publicPile: [Number],
   player1Hand: [Number],
   player1PlacePile: [Number],
@@ -9,4 +12,4 @@ module.exports = {
   currentStage: Number,
   player1: String,
   player2: String,
-}
+}, {collection: 'lostcitylist'})
