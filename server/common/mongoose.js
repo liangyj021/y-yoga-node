@@ -19,4 +19,5 @@ module.exports = {
   KeywordsList: mongoose.model('KeywordsList', schemas.keywordsSchema),
   LostCityList: mongoose.model('LostCityList', schemas.lostCitySchema),
   BaseList: mongoose.model('BaseList', schemas.baseListSchema),
+  FileList: mongoose.model('FileList', schemas.fileListSchema),
 }

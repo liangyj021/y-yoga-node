@@ -10,6 +10,7 @@ const tokenSchema = require('./schemas/tokenSchema')
 const keywordsSchema = require('./schemas/keywordsSchema')
 const lostCitySchema = require('./schemas/lostCitySchema')
 const baseListSchema = require('./schemas/baseListSchema')
+const fileListSchema = require('./schemas/fileListSchema')
 
 module.exports = {
   todoSchema,
@@ -20,4 +21,5 @@ module.exports = {
   keywordsSchema,
   lostCitySchema,
   baseListSchema,
+  fileListSchema,
 }
