@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 module.exports = Schema({
   // _id: ObjectId,
-  id: Number,
   name: String,
   description: String,
-  imgUrl: String,
+  imgId: String,
   authorId: String,
   tags: Array,
+  albumId: String,
   createdAt: Number,
   updatedAt: Number,
 }, {collection: 'photo'})
