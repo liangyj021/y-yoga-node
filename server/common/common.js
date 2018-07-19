@@ -1,6 +1,14 @@
 const socketIds = [];
-
+// TODO: COMMON 配置全局
 const Common = {
+  qiniu() {
+    return {
+      domain: 'pbusb34dv.bkt.clouddn.com'
+    }
+  },
+  getImgUrl(key) {
+    return this.qiniu().domain + '/' + key;
+  },
   uuid() {
     const s4 = ()=>{
       return Math.floor(( 1 + Math.random()) * 0x10000).toString(16).substring(1);

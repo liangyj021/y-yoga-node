@@ -2,11 +2,10 @@
 let express = require('express');
 let router = express.Router();
 let Album = require('../common/mongoose').Album;
-console.log(Album, '----------')
 let newId =  require('../common/mongoose').newId;
+const Common = require('../common/common')
 
 router.get('*', function(req, res, next) {
-  console.log('album req', req);
   next();
 })
 router.post('*', function(req, res, next) {
@@ -16,8 +15,10 @@ router.post('*', function(req, res, next) {
 
 router.get('/list', function(req, res) {
   Album.find({}, function (err, datas) {
+    console.log(datas)
     if (err) return console.error(err);
     res.statusCode = 200
+    datas.imgUrl = Common.getImgUrl(datas.imgId);
     return res.send(datas);
   })
 });
