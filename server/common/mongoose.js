@@ -20,4 +20,6 @@ module.exports = {
   LostCityList: mongoose.model('LostCityList', schemas.lostCitySchema),
   BaseList: mongoose.model('BaseList', schemas.baseListSchema),
   FileList: mongoose.model('FileList', schemas.fileListSchema),
+  Album: mongoose.model('Album', schemas.albumSchema),
+  Photo: mongoose.model('Photo', schemas.photoSchema),
 }
