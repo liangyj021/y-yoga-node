@@ -47,7 +47,7 @@ router.post('/addFile', (req, res, next) => {
         return console.error('七牛配置获取失败');
       }
       res.statusCode = 200;
-      return res.send({docs})
+      return res.send(docs)
     })
   })
 })
