@@ -4,11 +4,9 @@ let router = express.Router();
 let KeywordsList = require('../common/mongoose').KeywordsList;
 
 router.get('*', function(req, res, next) {
-  console.log("keywords request");
   next()
 })
 router.post('*', function(req, res, next) {
-  console.log("keywords request");
   next()
 })
 

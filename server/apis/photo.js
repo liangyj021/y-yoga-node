@@ -6,10 +6,8 @@ let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
   next();
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 

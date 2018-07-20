@@ -2,15 +2,12 @@
 let express = require('express');
 let router = express.Router();
 let Album = require('../common/mongoose').Album;
-console.log(Album, '----------')
 let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
-  console.log('album req', req);
   next();
 })
 router.post('*', function(req, res, next) {
-  console.log('album req', req);
   next()
 })
 

@@ -7,7 +7,6 @@ let Common = require('../common/common.js');
 let MailSender = require('../common/mailSender');
 
 router.get('*', function(req, res, next) {
-  console.log('user request');
   next();
 })
 router.post('*', function(req, res, next) {
@@ -16,7 +15,6 @@ router.post('*', function(req, res, next) {
 
 router.post('/login', (req, res, next) => {
   let user = req.body;
-  console.log(user);
   Userlist.findOne({name: user.username}, (err, data) => {
     if (err) {
       res.statusCode = 500;
@@ -29,7 +27,6 @@ router.post('/login', (req, res, next) => {
     let me = data
     Tokenlist.remove({userId: data._id}, (error) => {
       if (error) {
-        console.log("error", error);
         res.statusCode = 500;
         return res.send({})
       }
@@ -49,11 +46,9 @@ router.post('/login', (req, res, next) => {
 
 router.get('/me', (req, res, next) => {
   let user
-  console.log('user me');
   if (req.user && req.user._id) {
     Userlist.findOne({_id: req.user.userId}).select({email: 1, name: 2, isAdmin: 3, _id: 4}).exec((err, data) => {
       if (err) {
-        console.log("error", error);
         res.statusCode = 500;
         return res.send({})
       }

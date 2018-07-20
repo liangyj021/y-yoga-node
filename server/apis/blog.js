@@ -30,7 +30,6 @@ router.post('/list', function(req, res, next) {
     .populate('authorId', {_id: 1, name: 2, email: 3})
     .exec((err, datas) => {
       if (err) {
-        console.log(err)
         res.statusCode = 500;
         return res.send({})
       }
@@ -53,10 +52,8 @@ router.post('/save', function(req, res, next) {
   let blog = req.body;
   blog.isHot = true
   setBrief(blog)
-  console.log(blog);
   BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
-      console.log(err);
       res.statusCode = 500;
       return res.send({})
     }

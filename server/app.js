@@ -47,7 +47,6 @@ app.use(function (req, res, next) {
     if (req.cookies.y_token) {
       Tokenlist.findOne({token: req.cookies.y_token}, (err, user) => {
         if (user) {
-          console.log("user", user);
           req.user = user
         }
         next()
@@ -69,11 +68,9 @@ let server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 let io = require('socket.io').listen(server);
-let custom_id = 1
 io.engine.generateId = (req) => {
   return Common.getSocketId(req._query.token)
 }
 io.on('connection', function (socket) {
-  // console.log("get connected");
   socketConfig(socket)
 })

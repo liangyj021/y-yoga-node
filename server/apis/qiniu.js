@@ -7,10 +7,8 @@ let qiniu = require('qiniu')
 
 router.get('*', function(req, res, next) {
   next();
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 
@@ -23,14 +21,12 @@ router.post('/token', (req, res, next) => {
     let secretKey = datas.filter(i => i.key == 'QiniuSecretKey')[0].value
     let bucket = datas.filter(i => i.key == 'QiniuBucket')[0].value
     let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    console.log(accessKey, secretKey, bucket, mac)
     let options = {
       scope: bucket,
       expires: 7200
     };
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let uploadToken = putPolicy.uploadToken(mac);
-    console.log('token', uploadToken)
     res.statusCode = 200;
     return res.send({token: uploadToken})
   })
