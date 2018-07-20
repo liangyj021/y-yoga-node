@@ -25,14 +25,18 @@ router.post('/category', function(req, res, next) {
 
 router.post('/list', function(req, res, next) {
   let reqParams = req.body;
-  BlogList.find(reqParams, (err, datas) => {
-    if (err) {
-      res.statusCode = 500;
-      return res.send({})
-    }
-    res.statusCode = 200;
-    return res.send(datas)
-  })
+  BlogList
+    .find(reqParams)
+    .populate('authorId', {_id: 1, name: 2, email: 3})
+    .exec((err, datas) => {
+      if (err) {
+        console.log(err)
+        res.statusCode = 500;
+        return res.send({})
+      }
+      res.statusCode = 200;
+      return res.send(datas)
+    })
 })
 router.get('/hotlist', function(req, res, next) {
   BlogList.find({is_hot: true}, (err, datas) => {

@@ -8,7 +8,7 @@ module.exports = Schema({
   brief: String,
   ibrief: String,
   author: String,
-  authorId: String,
+  authorId: { type: Schema.Types.ObjectId, ref: 'userlist' },
   tags: [Number],
   isHot: Boolean,
   createdAt: Number,

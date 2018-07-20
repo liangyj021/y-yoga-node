@@ -51,7 +51,7 @@ router.get('/me', (req, res, next) => {
   let user
   console.log('user me');
   if (req.user && req.user._id) {
-    Userlist.findOne({_id: req.user.userId}, (err, data) => {
+    Userlist.findOne({_id: req.user.userId}).select({email: 1, name: 2, isAdmin: 3, _id: 4}).exec((err, data) => {
       if (err) {
         console.log("error", error);
         res.statusCode = 500;
