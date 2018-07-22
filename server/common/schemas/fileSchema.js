@@ -6,6 +6,7 @@ module.exports = Schema({
   key: String,
   filename: String,
   type: String,
+  url: String,
   domain: String,
 }, {collection: 'file'})
 

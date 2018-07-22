@@ -37,7 +37,10 @@ router.post('/addFile', (req, res, next) => {
     if (err) {
       return console.error('七牛配置获取失败');
     }
-    files.forEach(i => i.domain = data.value)
+    files.forEach(i => {
+      i.domain = data.value
+      i.url = 'http://' + i.domain + '/' + i.key
+    })
     File.insertMany(files, function(err, docs) {
       if (err) {
         return console.error('七牛配置获取失败');
