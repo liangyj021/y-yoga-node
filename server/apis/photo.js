@@ -35,4 +35,16 @@ router.post('/save', (req, res, next) => {
   });
 });
 
+const photoParse = photo => ({
+  _id: photo._id||newId,
+  name: photo.name,
+  description: photo.description,
+  img: photo.img._id,
+  author: photo.author._id,
+  tags: photo.tags.map(i=> i._id),
+  album: photo.album._id,
+  createdAt: photo.createdAt||new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+})
+
 module.exports = router;

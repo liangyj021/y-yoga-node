@@ -5,6 +5,7 @@ let User = require('../common/mongoose').User;
 let Token = require('../common/mongoose').Token;
 let Common = require('../common/common.js');
 let MailSender = require('../common/mailSender');
+let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
   next();
@@ -27,6 +28,7 @@ router.post('/login', (req, res, next) => {
       res.statusCode = 401;
       return res.send({})
     }
+    // TODO: Token.findOneAndUpdate
     Token.remove({user: data._id}, (error) => {
       if (error) {
         res.statusCode = 500;
@@ -84,5 +86,15 @@ router.post('/register', function(req, res) {
   res.statusCode = 200;
   return res.send({})
 });
+
+const userParse = user => ({
+  _id: user._id||newId,
+  name: user.name,
+  password: user.password,
+  admin: user.admin,
+  email: user.email,
+  lastLoginAt: user.lastLoginAt,
+  createdAt: user.createdAt||new Date().toISOString(),
+})
 
 module.exports = router;

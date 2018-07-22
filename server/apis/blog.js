@@ -115,4 +115,16 @@ const setBrief = (blog) => {
   }
 }
 
+const blogParse = blog => ({
+  _id: blog._id||newId,
+  title: blog.title,
+  content: blog.content,
+  brief: blog.brief,
+  author: blog.author._id,
+  tags: blog.tags.map(i => i._id),
+  hot: blog.hot,
+  createdAt: blog.createdAt||new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+})
+
 module.exports = router;

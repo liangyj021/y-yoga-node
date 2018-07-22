@@ -37,15 +37,4 @@ router.get('/youngCircle', function(req, res, next) {
   })
 })
 
-// router.get('/updateSQL', function(req, res, next) {
-//   updateSQL()
-//   return;
-// })
-//
-// const updateSQL = () => {
-//   BlogList.find({}, (err, datas) => {
-//
-//   })
-// }
-
 module.exports = router;

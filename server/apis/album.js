@@ -34,4 +34,14 @@ router.post('/save', (req, res, next) => {
   });
 });
 
+const albumParse = album => ({
+  _id: album._id||newId,
+  name: album.name,
+  description: album.description,
+  img: album.img._id,
+  creator: album.creator._id,
+  createdAt: album.createdAt||new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+})
+
 module.exports = router;

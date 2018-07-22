@@ -8,6 +8,6 @@ module.exports = Schema({
   author: { type: Schema.Types.ObjectId, ref: 'user' },
   tags: [{type: Schema.Types.ObjectId, ref: 'tag'}],
   hot: Boolean,
-  createdAt: Number,
-  updatedAt: Number,
+  createdAt: { type: Date, default: Date.now},
+  updatedAt: { type: Date, default: Date.now},
 }, {collection: 'blog', versionKey: false})
