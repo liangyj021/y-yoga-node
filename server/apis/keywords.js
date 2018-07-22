@@ -1,7 +1,7 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let KeywordsList = require('../common/mongoose').KeywordsList;
+let Keyword = require('../common/mongoose').Keyword;
 
 router.get('*', function(req, res, next) {
   next()
@@ -16,7 +16,7 @@ router.get('/us', function(req, res, next) {
     res.statusCode = 200;
     return res.send({})
   }
-  KeywordsList.findOne({type: 'us', name: keyword}, (err, data) => {
+  Keyword.findOne({type: 'us', name: keyword}, (err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -27,7 +27,7 @@ router.get('/us', function(req, res, next) {
 })
 
 router.get('/youngCircle', function(req, res, next) {
-  KeywordsList.find({type: 'youngCircle'}, (err, datas) => {
+  Keyword.find({type: 'youngCircle'}, (err, datas) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})

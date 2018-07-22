@@ -1,8 +1,8 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let BlogList = require('../common/mongoose').BlogList;
-let BlogTagList = require('../common/mongoose').BlogTagList;
+let Blog = require('../common/mongoose').Blog;
+let Tag = require('../common/mongoose').Tag;
 let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
@@ -13,7 +13,7 @@ router.post('*', function(req, res, next) {
 })
 
 router.post('/category', function(req, res, next) {
-  BlogTagList.find({}, (err, datas) => {
+  Tag.find({}, (err, datas) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -25,11 +25,13 @@ router.post('/category', function(req, res, next) {
 
 router.post('/list', function(req, res, next) {
   let reqParams = req.body;
-  BlogList
+  Blog
     .find(reqParams)
     .populate('author', {_id: 1, name: 2, email: 3})
+    .populate('tags', [{_id: 1, title: 2, key: 3}])
     .exec((err, datas) => {
       if (err) {
+        console.log(err)
         res.statusCode = 500;
         return res.send({})
       }
@@ -38,7 +40,7 @@ router.post('/list', function(req, res, next) {
     })
 })
 router.get('/hotlist', function(req, res, next) {
-  BlogList
+  Blog
     .find({hot: true})
     .populate('author', {_id: 1, name: 2, email: 3})
     .exec((err, datas) => {
@@ -55,7 +57,7 @@ router.post('/save', function(req, res, next) {
   let blog = req.body;
   blog.isHot = true
   setBrief(blog)
-  BlogList
+  Blog
     .findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
       res.statusCode = 500;
@@ -68,7 +70,7 @@ router.post('/save', function(req, res, next) {
 
 router.get('/blog/:id', function(req, res, next) {
   let id = req.params.id
-  BlogList
+  Blog
     .findOne({_id: id})
     .populate('author', {_id: 1, name: 2, email: 3})
     .exec((err, data) => {
@@ -87,7 +89,7 @@ router.get('/blog/:id', function(req, res, next) {
 // })
 //
 // const updateSQL = () => {
-//   BlogList.find({}, (err, datas) => {
+//   Blog.find({}, (err, datas) => {
 //
 //   })
 // }

@@ -35,7 +35,7 @@ router.post('/login', (req, res, next) => {
       let token = Common.uuid()
       Token.create({
         token,
-        userId: data._id,
+        user: data._id,
         userName: data.name,
       }, (err, doc) => {
         res.cookie('y_token',token);
@@ -48,10 +48,9 @@ router.post('/login', (req, res, next) => {
 })
 
 router.get('/me', (req, res, next) => {
-  let user
-  if (req.user && req.user._id) {
+  if (req.user && req.user) {
     User
-      .findOne({_id: req.user.userId})
+      .findOne({_id: req.user})
       .select({email: 1, name: 2, admin: 3, _id: 4})
       .exec((err, data) => {
       if (err) {
@@ -59,8 +58,7 @@ router.get('/me', (req, res, next) => {
         return res.send({})
       }
       res.statusCode = 200;
-      user = data
-      return res.send(user)
+      return res.send(data)
     })
   } else {
     res.statusCode = 401;
