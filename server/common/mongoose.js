@@ -1,5 +1,17 @@
+// TODO: Mongoose 优化
 var mongoose = require('mongoose');
-var schemas = require('./schemas')
+
+const todoSchema = require('./schemas/todoSchema')
+const blogSchema = require('./schemas/blogSchema')
+const tagSchema = require('./schemas/tagSchema')
+const userSchema = require('./schemas/userSchema')
+const tokenSchema = require('./schemas/tokenSchema')
+const keywordSchema = require('./schemas/keywordSchema')
+const lostCitySchema = require('./schemas/lostCitySchema')
+const baseDataSchema = require('./schemas/baseDataSchema')
+const fileSchema = require('./schemas/fileSchema')
+const albumSchema = require('./schemas/albumSchema')
+const photoSchema = require('./schemas/photoSchema')
 
 mongoose.connect('mongodb://localhost/young');
 var connection = mongoose.connection;
@@ -10,15 +22,15 @@ connection.once('open', function() {
 
 module.exports = {
   newId: mongoose.mongo.ObjectID,
-  Todolist:  mongoose.model('todolist', schemas.todoSchema),
-  Userlist: mongoose.model('userlist', schemas.userSchema),
-  Tokenlist: mongoose.model('tokenlist', schemas.tokenSchema),
-  BlogList: mongoose.model('bloglist', schemas.blogSchema),
-  BlogTagList: mongoose.model('blogtag', schemas.blogTagSchema),
-  KeywordsList: mongoose.model('keywordslist', schemas.keywordsSchema),
-  LostCityList: mongoose.model('lostcitylist', schemas.lostCitySchema),
-  BaseList: mongoose.model('baselist', schemas.baseListSchema),
-  FileList: mongoose.model('filelist', schemas.fileListSchema),
-  Album: mongoose.model('album', schemas.albumSchema),
-  Photo: mongoose.model('photo', schemas.photoSchema),
+  Todo:  mongoose.model('todo', todoSchema),
+  User: mongoose.model('user', userSchema),
+  Token: mongoose.model('token', tokenSchema),
+  Blog: mongoose.model('blog', blogSchema),
+  Tag: mongoose.model('blogtag', tagSchema),
+  Keyword: mongoose.model('keyword', keywordSchema),
+  LostCity: mongoose.model('lostcity', lostCitySchema),
+  BaseData: mongoose.model('basedata', baseDataSchema),
+  File: mongoose.model('file', fileSchema),
+  Album: mongoose.model('album', albumSchema),
+  Photo: mongoose.model('photo', photoSchema),
 }

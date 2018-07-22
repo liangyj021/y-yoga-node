@@ -27,7 +27,7 @@ router.post('/list', function(req, res, next) {
   let reqParams = req.body;
   BlogList
     .find(reqParams)
-    .populate('authorId', {_id: 1, name: 2, email: 3})
+    .populate('author', {_id: 1, name: 2, email: 3})
     .exec((err, datas) => {
       if (err) {
         res.statusCode = 500;
@@ -38,7 +38,10 @@ router.post('/list', function(req, res, next) {
     })
 })
 router.get('/hotlist', function(req, res, next) {
-  BlogList.find({is_hot: true}, (err, datas) => {
+  BlogList
+    .find({hot: true})
+    .populate('author', {_id: 1, name: 2, email: 3})
+    .exec((err, datas) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -52,7 +55,8 @@ router.post('/save', function(req, res, next) {
   let blog = req.body;
   blog.isHot = true
   setBrief(blog)
-  BlogList.findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
+  BlogList
+    .findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -64,7 +68,10 @@ router.post('/save', function(req, res, next) {
 
 router.get('/blog/:id', function(req, res, next) {
   let id = req.params.id
-  BlogList.findOne({_id: id}, (err, data) => {
+  BlogList
+    .findOne({_id: id})
+    .populate('author', {_id: 1, name: 2, email: 3})
+    .exec((err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})

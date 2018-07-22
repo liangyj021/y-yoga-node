@@ -1,8 +1,8 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let Userlist = require('../common/mongoose').Userlist;
-let Tokenlist = require('../common/mongoose').Tokenlist;
+let User = require('../common/mongoose').User;
+let Token = require('../common/mongoose').Token;
 let Common = require('../common/common.js');
 let MailSender = require('../common/mailSender');
 
@@ -15,7 +15,10 @@ router.post('*', function(req, res, next) {
 
 router.post('/login', (req, res, next) => {
   let user = req.body;
-  Userlist.findOne({name: user.username}, (err, data) => {
+  User
+    .findOne({name: user.username})
+    .select()
+    .exec((err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -24,21 +27,21 @@ router.post('/login', (req, res, next) => {
       res.statusCode = 401;
       return res.send({})
     }
-    let me = data
-    Tokenlist.remove({userId: data._id}, (error) => {
+    Token.remove({user: data._id}, (error) => {
       if (error) {
         res.statusCode = 500;
         return res.send({})
       }
       let token = Common.uuid()
-      Tokenlist.create({
+      Token.create({
         token,
         userId: data._id,
         userName: data.name,
       }, (err, doc) => {
         res.cookie('y_token',token);
         res.statusCode = 200;
-        return res.send(me)
+        delete data.password
+        return res.send(data)
       })
     })
   })
@@ -47,7 +50,10 @@ router.post('/login', (req, res, next) => {
 router.get('/me', (req, res, next) => {
   let user
   if (req.user && req.user._id) {
-    Userlist.findOne({_id: req.user.userId}).select({email: 1, name: 2, isAdmin: 3, _id: 4}).exec((err, data) => {
+    User
+      .findOne({_id: req.user.userId})
+      .select({email: 1, name: 2, admin: 3, _id: 4})
+      .exec((err, data) => {
       if (err) {
         res.statusCode = 500;
         return res.send({})
@@ -64,7 +70,7 @@ router.get('/me', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
   if (req.user && req.user.userId) {
-    Tokenlist.remove({userId: req.user.userId}, (error) => {
+    Token.remove({userId: req.user.userId}, (error) => {
       res.statusCode = 200;
       res.cookie('y_token', "");
       return res.send({})

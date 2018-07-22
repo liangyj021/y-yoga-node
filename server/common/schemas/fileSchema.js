@@ -7,6 +7,6 @@ module.exports = Schema({
   filename: String,
   type: String,
   domain: String,
-}, {collection: 'filelist'})
+}, {collection: 'file'})
 
 // 文件路由 http:// + domain + '/' + key

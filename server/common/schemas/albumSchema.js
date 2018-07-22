@@ -5,7 +5,8 @@ module.exports = Schema({
   // _id: ObjectId,
   name: String,
   description: String,
-  imgId: { type: Schema.Types.ObjectId, ref: 'filelist' },
+  img: { type: Schema.Types.ObjectId, ref: 'file' },
+  creator: { type: Schema.Types,ObjectId, ref: 'user'},
   createdAt: Date,
   updatedAt: Date,
 }, {collection: 'album'})

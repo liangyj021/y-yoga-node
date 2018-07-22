@@ -3,6 +3,6 @@ var Schema = mongoose.Schema;
 
 module.exports = Schema({
   token: String,
-  userId: { type: Schema.Types.ObjectId, ref: 'userlist' },
+  user: { type: Schema.Types.ObjectId, ref: 'user' },
   userName: String,
-}, {collection: 'tokenlist'})
+}, {collection: 'token'})

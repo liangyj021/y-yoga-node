@@ -19,7 +19,7 @@ const Common = {
       socketIds.push(uuid)
       return uuid
     }
-  }
+  },
 }
 
 module.exports = Common

@@ -12,4 +12,4 @@ module.exports = Schema({
   currentStage: Number,
   player1: { type: Schema.Types.ObjectId, ref: 'userlist' },
   player2: { type: Schema.Types.ObjectId, ref: 'userlist' },
-}, {collection: 'lostcitylist'})
+}, {collection: 'lostcity'})
