@@ -12,9 +12,11 @@ router.post('*', function(req, res, next) {
 })
 
 router.get('/list', function(req, res) {
-  Album
-    .find({})
-    .populate('image', {})
+  Photo
+    .find(req.query)
+    .populate('img')
+    .populate('tags')
+    .populate('album')
     .populate('creator', {_id: 1, name: 2, email: 3})
     .exec(function (err, datas) {
     if (err) return console.error(err);
@@ -24,23 +26,22 @@ router.get('/list', function(req, res) {
 });
 
 router.post('/save', (req, res, next) => {
-  let update = Object.assign({}, new Photo(req), {updatedAt: new Date().toISOString(),})
   let query = {_id: req.body._id || newId()};
+  let photo = photoParse(req.body, req.user)
   let options = {upsert: true, new: true};
-
-  Photo.findOneAndUpdate(query, update, options, function (err, doc) {
+  Photo.findOneAndUpdate(query, photo, options, function (err, doc) {
     if (err) return console.error(err);
     res.statusCode = 200
     return res.send(datas);
   });
 });
 
-const photoParse = photo => ({
+const photoParse = (photo, currentUser) => ({
   _id: photo._id||newId,
   name: photo.name,
   description: photo.description,
   img: photo.img._id,
-  author: photo.author._id,
+  author: photo.author._id||currentUser,
   tags: photo.tags.map(i=> i._id),
   album: photo.album._id,
   createdAt: photo.createdAt||new Date().toISOString(),

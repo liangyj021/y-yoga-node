@@ -15,12 +15,28 @@ router.get('/list', function(req, res) {
   Album
     .find({})
     .populate('img', {})
+    .populate('creator', {_id: 1, name: 2, email: 3, admin: 4})
     .exec(function (err, datas) {
     if (err) return console.error(err);
     res.statusCode = 200
     return res.send(datas);
   })
 });
+
+router.get('/getOne', function(req, res) {
+  let _id = req.query.id
+  Album
+    .findOne({_id})
+    .populate('img', {})
+    .populate('creator', {_id: 1, name: 2, email: 3, admin: 4})
+    .exec((err, doc) => {
+    if (err) {
+      return console.error(err);
+    }
+    res.statusCode = 200
+    return res.send(doc)
+  })
+})
 
 router.post('/save', (req, res, next) => {
   let update = albumParse(req.body, req.user)

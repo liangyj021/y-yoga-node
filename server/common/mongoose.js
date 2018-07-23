@@ -26,7 +26,7 @@ module.exports = {
   User: mongoose.model('user', userSchema),
   Token: mongoose.model('token', tokenSchema),
   Blog: mongoose.model('blog', blogSchema),
-  Tag: mongoose.model('blogtag', tagSchema),
+  Tag: mongoose.model('tag', tagSchema),
   Keyword: mongoose.model('keyword', keywordSchema),
   LostCity: mongoose.model('lostcity', lostCitySchema),
   BaseData: mongoose.model('basedata', baseDataSchema),

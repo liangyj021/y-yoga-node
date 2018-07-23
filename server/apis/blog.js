@@ -54,11 +54,9 @@ router.get('/hotlist', function(req, res, next) {
 })
 
 router.post('/save', function(req, res, next) {
-  let blog = req.body;
-  blog.isHot = true
-  setBrief(blog)
+  let blog = blogParse(req.body, req.user);
   Blog
-    .findOneAndUpdate({_id: blog._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
+    .findOneAndUpdate({_id: req.body._id||newId()}, blog, {new: true, upsert: true}, (err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -83,18 +81,7 @@ router.get('/blog/:id', function(req, res, next) {
   })
 })
 
-// router.get('/updateSQL', function(req, res, next) {
-//   updateSQL()
-//   return;
-// })
-//
-// const updateSQL = () => {
-//   Blog.find({}, (err, datas) => {
-//
-//   })
-// }
-
-const setBrief = (blog) => {
+const getBrief = (blog) => {
   if (!blog.brief) {
     let brief = blog.content;
     let markdownKeywords = {
@@ -111,16 +98,16 @@ const setBrief = (blog) => {
     markdownKeywords.space2.forEach(key => {
       brief = brief.split(key).join(' ')
     })
-    blog.ibrief = brief.substring(0, 200)
+    return brief.substring(0, 200)
   }
 }
 
-const blogParse = blog => ({
-  _id: blog._id||newId,
+const blogParse = (blog, currentUser) => ({
+  // _id: blog._id||newId,
   title: blog.title,
   content: blog.content,
-  brief: blog.brief,
-  author: blog.author._id,
+  brief: blog.brief||getBrief(blog),
+  author: blog.author._id||currentUser,
   tags: blog.tags.map(i => i._id),
   hot: blog.hot,
   createdAt: blog.createdAt||new Date().toISOString(),
