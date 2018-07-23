@@ -32,16 +32,16 @@ router.post('/save', (req, res, next) => {
   Photo.findOneAndUpdate(query, photo, options, function (err, doc) {
     if (err) return console.error(err);
     res.statusCode = 200
-    return res.send(datas);
+    return res.send(doc);
   });
 });
 
 const photoParse = (photo, currentUser) => ({
-  _id: photo._id||newId,
+  // _id: photo._id||newId,
   name: photo.name,
   description: photo.description,
   img: photo.img._id,
-  author: photo.author._id||currentUser,
+  author: photo.author?photo.author._id:currentUser,
   tags: photo.tags.map(i=> i._id),
   album: photo.album._id,
   createdAt: photo.createdAt||new Date().toISOString(),
