@@ -18,7 +18,7 @@ let express = require('express'),
 let socketConfig = require('./sockets/index'),
     api = require('./apis/index'),
     Common = require('./common/common.js'),
-    Tokenlist = require('./common/mongoose').Tokenlist;
+    Token = require('./common/mongoose').Token;
 
 let app = express();
 
@@ -45,10 +45,9 @@ app.use(function (req, res, next) {
     res.setHeader("Expires", "0"); // Proxies.
 
     if (req.cookies.y_token) {
-      Tokenlist.findOne({token: req.cookies.y_token}, (err, user) => {
-        if (user) {
-          console.log("user", user);
-          req.user = user
+      Token.findOne({token: req.cookies.y_token}, (err, token) => {
+        if (token) {
+          req.user = token.user
         }
         next()
       })
@@ -69,11 +68,9 @@ let server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 let io = require('socket.io').listen(server);
-let custom_id = 1
 io.engine.generateId = (req) => {
   return Common.getSocketId(req._query.token)
 }
 io.on('connection', function (socket) {
-  // console.log("get connected");
   socketConfig(socket)
 })

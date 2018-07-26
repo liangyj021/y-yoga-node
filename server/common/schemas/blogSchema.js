@@ -2,15 +2,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = Schema({
-  // id: Number,
   title: String,
   content: String,
   brief: String,
-  ibrief: String,
-  author: String,
-  authorId: String,
-  tags: [Number],
-  isHot: Boolean,
-  createdAt: Number,
-  updatedAt: Number,
-}, {collection: 'bloglist', versionKey: false})
+  author: { type: Schema.Types.ObjectId, ref: 'user' },
+  tags: [{type: Schema.Types.ObjectId, ref: 'tag'}],
+  hot: Boolean,
+  createdAt: { type: Date, default: Date.now},
+  updatedAt: { type: Date, default: Date.now},
+}, {collection: 'blog', versionKey: false})

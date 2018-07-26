@@ -3,7 +3,7 @@ let GameControl = require('./game/index.js')
 const Socket = (socket) => {
   socket.emit('open', {connected: true});//通知客户端已连接
   socket.on('otherEvent', (data) => {
-    console.log(data);
+    
   })
   socket.on('join-room', name => {
     joinRoom(socket, name)

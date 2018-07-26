@@ -10,6 +10,6 @@ module.exports = Schema({
   player2PlacePile: [Number],
   currentPlayer: Number,
   currentStage: Number,
-  player1: String,
-  player2: String,
-}, {collection: 'lostcitylist'})
+  player1: { type: Schema.Types.ObjectId, ref: 'userlist' },
+  player2: { type: Schema.Types.ObjectId, ref: 'userlist' },
+}, {collection: 'lostcity'})

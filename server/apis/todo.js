@@ -1,20 +1,18 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let Todolist = require('../common/mongoose').Todolist;
+let Todo = require('../common/mongoose').Todo;
 let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
   next();
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 
 router.post('/save', (req, res, next) => {
-  let update = new Todolist({
+  let update = new Todo({
     title: req.body.title,
     type: req.body.type,
     createdAt: req.body.createdAt,
@@ -23,7 +21,7 @@ router.post('/save', (req, res, next) => {
   let query = {_id: req.body._id || newId()};
   let options = {upsert: true, new: true};
 
-  Todolist.findOneAndUpdate(query, update, options, function (err, doc) {
+  Todo.findOneAndUpdate(query, update, options, function (err, doc) {
     if (err) return console.error(err);
     let data = {todos: doc};
     res.statusCode = 200
@@ -32,7 +30,7 @@ router.post('/save', (req, res, next) => {
 })
 
 router.get('/getlist', function(req, res) {
-  Todolist.find({}, function (err, datas) {
+  Todo.find({}, function (err, datas) {
     if (err) return console.error(err);
     let data = {todos: datas};
     res.statusCode = 200
@@ -41,27 +39,13 @@ router.get('/getlist', function(req, res) {
 });
 
 router.post('/deleteOne', function(req, res) {
-  let todo = new Todolist({_id: req.body._id})
-  Todolist.deleteOne(todo, function (err, datas) {
+  let todo = new Todo({_id: req.body._id})
+  Todo.deleteOne(todo, function (err, datas) {
     if (err) return console.error(err);
     let data = {todos: datas};
     res.statusCode = 200
     return res.send(data);
   })
 });
-
-router.get('/updateSQL', function(req, res) {
-  Todolist.find({}, function (err, datas) {
-    // if (datas.length > 0) {
-    //   datas.forEach((i, n) => {
-    //     Todolist.findOneAndUpdate({_id: i._id}, {
-    //       updatedAt: n,
-    //       createdAt: n
-    //     }, (err, data) => {
-    //     })
-    //   })
-    // }
-  })
-})
 
 module.exports = router;

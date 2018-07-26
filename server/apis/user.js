@@ -1,13 +1,13 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let Userlist = require('../common/mongoose').Userlist;
-let Tokenlist = require('../common/mongoose').Tokenlist;
+let User = require('../common/mongoose').User;
+let Token = require('../common/mongoose').Token;
 let Common = require('../common/common.js');
 let MailSender = require('../common/mailSender');
+let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
-  console.log('user request');
   next();
 })
 router.post('*', function(req, res, next) {
@@ -16,8 +16,10 @@ router.post('*', function(req, res, next) {
 
 router.post('/login', (req, res, next) => {
   let user = req.body;
-  console.log(user);
-  Userlist.findOne({name: user.username}, (err, data) => {
+  User
+    .findOne({name: user.username})
+    .select()
+    .exec((err, data) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
@@ -26,40 +28,39 @@ router.post('/login', (req, res, next) => {
       res.statusCode = 401;
       return res.send({})
     }
-    let me = data
-    Tokenlist.remove({userId: data._id}, (error) => {
+    // TODO: Token.findOneAndUpdate
+    Token.remove({user: data._id}, (error) => {
       if (error) {
-        console.log("error", error);
         res.statusCode = 500;
         return res.send({})
       }
       let token = Common.uuid()
-      Tokenlist.create({
+      Token.create({
         token,
-        userId: data._id,
+        user: data._id,
         userName: data.name,
       }, (err, doc) => {
         res.cookie('y_token',token);
         res.statusCode = 200;
-        return res.send(me)
+        delete data.password
+        return res.send(data)
       })
     })
   })
 })
 
 router.get('/me', (req, res, next) => {
-  let user
-  console.log('user me');
-  if (req.user && req.user._id) {
-    Userlist.findOne({_id: req.user.userId}, (err, data) => {
+  if (req.user && req.user) {
+    User
+      .findOne({_id: req.user})
+      .select({email: 1, name: 2, admin: 3, _id: 4})
+      .exec((err, data) => {
       if (err) {
-        console.log("error", error);
         res.statusCode = 500;
         return res.send({})
       }
       res.statusCode = 200;
-      user = data
-      return res.send(user)
+      return res.send(data)
     })
   } else {
     res.statusCode = 401;
@@ -69,7 +70,7 @@ router.get('/me', (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
   if (req.user && req.user.userId) {
-    Tokenlist.remove({userId: req.user.userId}, (error) => {
+    Token.remove({userId: req.user.userId}, (error) => {
       res.statusCode = 200;
       res.cookie('y_token', "");
       return res.send({})
@@ -85,5 +86,15 @@ router.post('/register', function(req, res) {
   res.statusCode = 200;
   return res.send({})
 });
+
+const userParse = user => ({
+  _id: user._id||newId,
+  name: user.name,
+  password: user.password,
+  admin: user.admin,
+  email: user.email,
+  lastLoginAt: user.lastLoginAt,
+  createdAt: user.createdAt||new Date().toISOString(),
+})
 
 module.exports = router;

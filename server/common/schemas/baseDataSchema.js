@@ -5,4 +5,4 @@ module.exports = Schema({
   // id: Number,
   key: String,
   value: String,
-}, {collection: 'baselist', versionKey: false})
+}, {collection: 'basedata', versionKey: false})

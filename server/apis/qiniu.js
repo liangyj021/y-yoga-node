@@ -1,21 +1,19 @@
 "use strict"
 let express = require('express');
 let router = express.Router();
-let base = require('../common/mongoose').BaseList;
-let FileList = require('../common/mongoose').FileList;
+let BaseData = require('../common/mongoose').BaseData;
+let File = require('../common/mongoose').File;
 let qiniu = require('qiniu')
 
 router.get('*', function(req, res, next) {
   next();
-  // console.log(req);
 })
 router.post('*', function(req, res, next) {
-  // console.log(req);
   next()
 })
 
 router.post('/token', (req, res, next) => {
-  base.find({type: 'qiniu'}, function (err, datas) {
+  BaseData.find({type: 'qiniu'}, function (err, datas) {
     if (err || datas.length <= 3) {
       return console.error('七牛配置获取失败');
     }
@@ -23,26 +21,27 @@ router.post('/token', (req, res, next) => {
     let secretKey = datas.filter(i => i.key == 'QiniuSecretKey')[0].value
     let bucket = datas.filter(i => i.key == 'QiniuBucket')[0].value
     let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
-    console.log(accessKey, secretKey, bucket, mac)
     let options = {
       scope: bucket,
       expires: 7200
     };
     let putPolicy = new qiniu.rs.PutPolicy(options);
     let uploadToken = putPolicy.uploadToken(mac);
-    console.log('token', uploadToken)
     res.statusCode = 200;
     return res.send({token: uploadToken})
   })
 })
 router.post('/addFile', (req, res, next) => {
   let files = req.body;
-  base.findOne({key: 'QiniuDomain'}, function (err, data) {
+  BaseData.findOne({key: 'QiniuDomain'}, function (err, data) {
     if (err) {
       return console.error('七牛配置获取失败');
     }
-    files.forEach(i => i.domain = data.value)
-    FileList.insertMany(files, function(err, docs) {
+    files.forEach(i => {
+      i.domain = data.value
+      i.url = 'http://' + i.domain + '/' + i.key
+    })
+    File.insertMany(files, function(err, docs) {
       if (err) {
         return console.error('七牛配置获取失败');
       }

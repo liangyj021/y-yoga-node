@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = Schema({
-  // id: Number,
   name: String,
   password: String,
-  isAdmin: Boolean,
+  admin: Boolean,
+  email: String,
   // socket_id: String,
-  lastLoginAt: Number,
-  createdAt: Number,
-}, {collection: 'userlist'})
+  lastLoginAt: {type: Date},
+  createdAt: { type: Date, default: Date.now},
+}, {collection: 'user'})
