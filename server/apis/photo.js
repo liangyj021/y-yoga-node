@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 let Photo = require('../common/mongoose').Photo;
+let Tag = require('../common/mongoose').Tag;
 let newId =  require('../common/mongoose').newId;
 
 router.get('*', function(req, res, next) {
@@ -35,6 +36,18 @@ router.post('/save', (req, res, next) => {
     return res.send(doc);
   });
 });
+
+
+router.post('/tags', function(req, res, next) {
+  Tag.find({type: 'photo'}, (err, datas) => {
+    if (err) {
+      res.statusCode = 500;
+      return res.send({})
+    }
+    res.statusCode = 200;
+    return res.send(datas)
+  })
+})
 
 const photoParse = (photo, currentUser) => ({
   // _id: photo._id||newId,

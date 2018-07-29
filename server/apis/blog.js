@@ -13,7 +13,7 @@ router.post('*', function(req, res, next) {
 })
 
 router.post('/category', function(req, res, next) {
-  Tag.find({}, (err, datas) => {
+  Tag.find({type: 'blog'}, (err, datas) => {
     if (err) {
       res.statusCode = 500;
       return res.send({})
