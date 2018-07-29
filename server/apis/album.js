@@ -3,6 +3,7 @@ let express = require('express');
 let router = express.Router();
 let Album = require('../common/mongoose').Album;
 let newId =  require('../common/mongoose').newId;
+const Common = require('../common/common')
 
 router.get('*', function(req, res, next) {
   next();
@@ -19,6 +20,7 @@ router.get('/list', function(req, res) {
     .exec(function (err, datas) {
     if (err) return console.error(err);
     res.statusCode = 200
+    datas.imgUrl = Common.getImgUrl(datas.imgId);
     return res.send(datas);
   })
 });
