@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 let Blog = require('../common/mongoose').Blog;
+let BlogRemark = require('../common/mongoose').BlogRemark;
 let Tag = require('../common/mongoose').Tag;
 let newId =  require('../common/mongoose').newId;
 
@@ -81,6 +82,21 @@ router.get('/blog/:id', function(req, res, next) {
   })
 })
 
+router.get('/blog/:blogId/remark', function(req, res, next) {
+  let blogId = req.params.blogId;
+  BlogRemark
+    .find({blog: blogId})
+    .populate('author', {_id: 1, name: 2, email: 3})
+    .exec((err, data) => {
+      if (err) {
+        res.statusCode = 500;
+        return res.send({})
+      }
+      res.statusCode = 200
+      return res.send(data)
+    })
+})
+
 const getBrief = (blog) => {
   if (!blog.brief) {
     let brief = blog.content;
@@ -112,6 +128,14 @@ const blogParse = (blog, currentUser) => ({
   hot: blog.hot,
   createdAt: blog.createdAt||new Date().toISOString(),
   updatedAt: new Date().toISOString(),
+})
+
+const blogRemarkParse = (blogRemark, currentUser) => ({
+  blog: blogRemark.blog,
+  author: blogRemark.author._id||currentUser,
+  replayRemark: blogRemark.replayRemark,
+  content: blogRemark.content,
+  createdAt: blogRemark.createdAt||new Date().toISOString(),
 })
 
 module.exports = router;

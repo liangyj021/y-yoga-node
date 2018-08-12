@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 const todoSchema = require('./schemas/todoSchema')
 const blogSchema = require('./schemas/blogSchema')
+const blogRemarkSchema = require('./schemas/blogRemarkSchema')
 const tagSchema = require('./schemas/tagSchema')
 const userSchema = require('./schemas/userSchema')
 const tokenSchema = require('./schemas/tokenSchema')
@@ -26,6 +27,7 @@ module.exports = {
   User: mongoose.model('user', userSchema),
   Token: mongoose.model('token', tokenSchema),
   Blog: mongoose.model('blog', blogSchema),
+  BlogRemark: mongoose.model('blogremark', blogRemarkSchema),
   Tag: mongoose.model('tag', tagSchema),
   Keyword: mongoose.model('keyword', keywordSchema),
   LostCity: mongoose.model('lostcity', lostCitySchema),
