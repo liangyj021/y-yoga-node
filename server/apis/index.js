@@ -9,6 +9,7 @@ let album = require('./album')
 let photo = require('./photo')
 let qiniu = require('./qiniu')
 let keywords = require('./keywords')
+let music = require('./music')
 
 router.get('*', function(req, res, next) {
   next()
@@ -25,5 +26,6 @@ router.use('/album', album)
 router.use('/photo', photo)
 router.use('/keywords', keywords)
 router.use('/qiniu', qiniu)
+router.use('/music', music)
 
 module.exports = router;

@@ -13,6 +13,7 @@ const baseDataSchema = require('./schemas/baseDataSchema')
 const fileSchema = require('./schemas/fileSchema')
 const albumSchema = require('./schemas/albumSchema')
 const photoSchema = require('./schemas/photoSchema')
+const musicSchema = require('./schemas/musicSchema')
 
 mongoose.connect('mongodb://localhost/young');
 var connection = mongoose.connection;
@@ -35,4 +36,5 @@ module.exports = {
   File: mongoose.model('file', fileSchema),
   Album: mongoose.model('album', albumSchema),
   Photo: mongoose.model('photo', photoSchema),
+  Music: mongoose.model('music', musicSchema),
 }

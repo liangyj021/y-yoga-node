@@ -17,7 +17,6 @@ router.post('/save', (req, res, next) => {
   let options = {upsert: true, new: true};
   Todo.findOneAndUpdate(query, todo, options, function (err, doc) {
     if (err) return console.error(err);
-    let data = {todos: doc};
     res.statusCode = 200
     return res.send(doc);
   });
@@ -36,7 +35,7 @@ router.get('/getlist', function(req, res) {
 });
 
 router.post('/deleteOne', function(req, res) {
-  let todo = new Todo({_id: req.body._id})
+  let todo = {_id: req.body._id}
   Todo.deleteOne(todo, function (err, datas) {
     if (err) return console.error(err);
     let data = {todos: datas};
