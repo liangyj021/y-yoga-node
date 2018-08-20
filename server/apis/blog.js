@@ -67,7 +67,7 @@ router.post('/save', function(req, res, next) {
   })
 })
 
-router.get('/blog/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   let id = req.params.id
   Blog
     .findOne({_id: id})
@@ -82,7 +82,7 @@ router.get('/blog/:id', function(req, res, next) {
   })
 })
 
-router.get('/blog/:blogId/remark', function(req, res, next) {
+router.get('/:blogId/remark', function(req, res, next) {
   let blogId = req.params.blogId;
   BlogRemark
     .find({blog: blogId})
@@ -98,7 +98,7 @@ router.get('/blog/:blogId/remark', function(req, res, next) {
     })
 })
 
-router.post('/blog/remark', function(req, res, next) {
+router.post('/remark', function(req, res, next) {
   let remark = blogRemarkParse(req.body, req.user)
   BlogRemark
     .findOneAndUpdate({_id: req.body._id||newId()}, remark, {new: true, upsert: true}, (err, data) => {
@@ -146,7 +146,7 @@ const blogParse = (blog, currentUser) => ({
 
 const blogRemarkParse = (blogRemark, currentUser) => ({
   blog: blogRemark.blog,
-  author: blogRemark.author._id||currentUser,
+  author: currentUser,
   replayRemark: blogRemark.replayRemark,
   content: blogRemark.content,
   createdAt: blogRemark.createdAt||new Date().toISOString(),
