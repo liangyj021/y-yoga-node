@@ -87,6 +87,7 @@ router.get('/blog/:blogId/remark', function(req, res, next) {
   BlogRemark
     .find({blog: blogId})
     .populate('author', {_id: 1, name: 2, email: 3})
+    .populate({path: 'remark', populate: { path: 'author'}})
     .exec((err, data) => {
       if (err) {
         res.statusCode = 500;
@@ -95,6 +96,19 @@ router.get('/blog/:blogId/remark', function(req, res, next) {
       res.statusCode = 200
       return res.send(data)
     })
+})
+
+router.post('/blog/remark', function(req, res, next) {
+  let remark = blogRemarkParse(req.body, req.user)
+  BlogRemark
+    .findOneAndUpdate({_id: req.body._id||newId()}, remark, {new: true, upsert: true}, (err, data) => {
+    if(err) {
+      res.statusCode = 500
+      return res.send({})
+    }
+    res.statusCode = 200
+    return res.send(data)
+  })
 })
 
 const getBrief = (blog) => {
