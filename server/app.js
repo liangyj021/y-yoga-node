@@ -56,6 +56,8 @@ app.use(function (req, res, next) {
     }
 });
 
+// TODO: connect valid login - api
+
 app.use('/api', api);
 
 // development only
