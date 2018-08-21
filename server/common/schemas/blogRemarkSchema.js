@@ -6,5 +6,7 @@ module.exports = Schema({
   author: { type: Schema.Types.ObjectId, ref: 'user' },
   replayRemark: { type: Schema.Types.ObjectId, ref: 'blogremark' },
   content: String,
+  like: Number,
+  dislike: Number,
   createdAt: { type: Date, default: Date.now},
 }, {collection: 'blogremark', versionKey: false})

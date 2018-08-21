@@ -87,7 +87,8 @@ router.get('/:blogId/remark', function(req, res, next) {
   BlogRemark
     .find({blog: blogId})
     .populate('author', {_id: 1, name: 2, email: 3})
-    .populate({path: 'remark', populate: { path: 'author'}})
+    .populate({path: 'replayRemark', populate: { path: 'author'}})
+    .sort({createdAt: -1})
     .exec((err, data) => {
       if (err) {
         res.statusCode = 500;
