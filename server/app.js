@@ -20,6 +20,7 @@ let socketConfig = require('./sockets/index'),
     Common = require('./common/common.js'),
     Token = require('./common/mongoose').Token;
 
+let loggerConnect = require('./connect/logger')
 let app = express();
 
 // all environments
@@ -31,7 +32,9 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(loggerConnect);
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(function (req, res, next) {
     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9520');
@@ -67,6 +70,10 @@ if ('development' == app.get('env')) {
 
 let server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+process.on('uncaughtException', function (error) {
+  console.log("error:", error.stack);
 });
 
 let io = require('socket.io').listen(server);

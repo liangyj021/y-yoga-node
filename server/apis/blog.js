@@ -111,6 +111,18 @@ router.post('/remark', function(req, res, next) {
     return res.send(data)
   })
 })
+router.post('/remark/remove/:remarkId', function(req, res, next) {
+  let remarkId = req.params.remarkId;
+  BlogRemark
+    .findByIdAndUpdate(remarkId, {content: "已删除"}).exec((err, data) => {
+    if(err) {
+      res.statusCode = 500
+      return res.send({})
+    }
+    res.statusCode = 200
+    return res.send(data)
+  })
+})
 
 const getBrief = (blog) => {
   if (!blog.brief) {
