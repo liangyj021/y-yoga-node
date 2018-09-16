@@ -15,7 +15,7 @@ const albumSchema = require('./schemas/albumSchema')
 const photoSchema = require('./schemas/photoSchema')
 const musicSchema = require('./schemas/musicSchema')
 
-mongoose.connect('mongodb://localhost:27017/young', {useNewUrlParser: true, autoReconnect: true});
+mongoose.connect('mongodb://localhost:27017/young', {autoReconnect: true});
 var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function() {

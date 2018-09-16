@@ -14,13 +14,13 @@ let express = require('express'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
   errorhandler = require('errorhandler');
+require('./common/mongoose');
 
 let socketConfig = require('./sockets/index'),
     api = require('./apis/index'),
     Common = require('./common/common.js'),
-    Token = require('./common/mongoose').Token;
+    authorizeMiddleware = require('./middleware/authorize')
 
-let loggerConnect = require('./connect/logger')
 let app = express();
 
 // all environments
@@ -32,35 +32,22 @@ app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(loggerConnect);
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use(function (req, res, next) {
-    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9520');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
-    res.setHeader('Vary',["Origin", "Accept-Encoding"]);
-    // res.setHeader('Transfer-Encoding',"chunked");
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-    res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-    res.setHeader("Expires", "0"); // Proxies.
-
-    if (req.cookies.y_token) {
-      Token.findOne({token: req.cookies.y_token}, (err, token) => {
-        if (token) {
-          req.user = token.user
-        }
-        next()
-      })
-    } else {
-      next()
-    }
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9520');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+  res.setHeader('Vary',["Origin", "Accept-Encoding"]);
+  // res.setHeader('Transfer-Encoding',"chunked");
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+  res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+  res.setHeader("Expires", "0"); // Proxies.
+  next()
 });
 
-// TODO: connect valid login - api
-
+app.use(authorizeMiddleware);
 app.use('/api', api);
 
 // development only
